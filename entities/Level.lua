@@ -21,6 +21,8 @@ function Level:initialize(x, y,levelName, scene)
 
    self.width = 0
    self.height = 0
+   self.numTilesWidth = 0
+   self.numTilesHeight = 0
    self.tables = {}
    self.scene = scene
    self.walls = {}
@@ -110,6 +112,8 @@ function Level:loadLevelFile(levelName)
          end
          y = y + 1
       end
+      self.numTilesWidth = x
+      self.numTilesHeight = y
       self.width = (x) * SquareSize
       self.height = (y) * SquareSize
    else
