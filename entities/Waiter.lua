@@ -82,7 +82,7 @@ function Waiter:mousepressed(x, y, button)
 		  Timer.tween(0.3, self, {step = 6}, "in-linear",
 			 function()
 			  self.plategun:shoot()
-           self.scene.cammgr:shake(0.9,2)
+           self.scene.cammgr:shake(0.8,2)
 			  self.step = 0
 			  self.isShooting = false
 			 end
