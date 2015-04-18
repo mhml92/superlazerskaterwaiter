@@ -37,7 +37,7 @@ function Waiter:update(dt)
       -- Apply force in the direction of the mouse x,y
       --]]
       local px,py = self.body:getX(),self.body:getY()
-      local mx,my = love.mouse.getPosition()
+      local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
       local dx,dy = mx-px,my-py
       self:applyForce(dx,dy) 
    end
