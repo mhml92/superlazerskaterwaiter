@@ -19,7 +19,6 @@ function Bullet:initialize(parent)
    self.deltaRot = (love.math.random()*math.pi/16) - ((love.math.random()*math.pi/16)/2)
   
    self.body      = lp.newBody(self.scene.world, self.x, self.y, "dynamic")
-   print(self.x,self.y)
 	self.shape     = lp.newCircleShape(self.radius)
 	self.fixture   = lp.newFixture(self.body, self.shape)
 
