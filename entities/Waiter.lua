@@ -7,8 +7,8 @@ local PlateStack = require "PlateStack"
 local PlateGun = require "PlateGun"
 local imgSrc = Resources.static:getImage("waiter.png")
 local quad = {}
-for i=0,5 do
-	quad[i] = love.graphics.newQuad(i*70, 0, 70, 60, 420, 60)
+for i=0,7 do
+	quad[i] = love.graphics.newQuad(i*70, 0, 70, 60, 560, 60)
 end
 
 function Waiter:initialize(x, y, scene)
@@ -79,7 +79,7 @@ end
 
 function Waiter:draw()
 	self.legs:draw()
-	local frame = math.min(5, math.floor(self.step))
+	local frame = math.min(7, math.floor(self.step))
 	local x, y, r = self:getTranslation()
 	love.graphics.draw(imgSrc, quad[frame], x, y, r, 1, 1, 35, 30)
 	self.platestack:draw()
@@ -93,9 +93,9 @@ function Waiter:mousepressed(x, y, button)
 	   if self.isShooting == false then
 		if self.platestack:removePlate() then
 			self.isShooting = true
-		  Timer.tween(0.3, self, {step = 6}, "in-linear",
+		  Timer.tween(0.3, self, {step = 8}, "in-linear",
 			 function()
-			  self.step = 0
+			  self.step = 7
 			  self.ready = true
 			 end
 			 )
@@ -113,6 +113,7 @@ function Waiter:mousereleased(x, y, button)
 	  self.isShooting = false
 		self.plategun:shoot()
    		self.scene.cammgr:shake(0.9,2)
+		self.step = 0
 	end
   end
 end

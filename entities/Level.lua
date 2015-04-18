@@ -3,8 +3,20 @@ local lg = love.graphics
 local lp = love.physics
 
 function Level:initialize(x, y,levelName, scene)
-   self.floorImg = Resources.static:getImage("floor.png")
-   self.tableImg = Resources.static:getImage("table.png")
+   self.img = {}
+   self.img.floor = Resources.static:getImage("floor.png")
+   self.img.table = Resources.static:getImage("table.png")
+   
+   self.img.tlc   = Resources.static:getImage("tlc.png")
+   self.img.trc   = Resources.static:getImage("trc.png")
+   self.img.blc   = Resources.static:getImage("blc.png")
+   self.img.brc   = Resources.static:getImage("brc.png")
+   
+   self.img.tw    = Resources.static:getImage("tw.png")
+   self.img.rw    = Resources.static:getImage("rw.png")
+   self.img.bw    = Resources.static:getImage("bw.png")
+   self.img.lw    = Resources.static:getImage("lw.png")
+   
    self.matrix = {}
 
    self.width = 0
@@ -113,15 +125,37 @@ function Level:draw()
    for i,v in ipairs(self.matrix) do
       for j,w in ipairs(v) do
          local di,dj = i-1,j-1
-         lg.draw(self.floorImg,dj*SquareSize,di*SquareSize)
+         lg.draw(self.img.floor,dj*SquareSize,di*SquareSize)
          if w == "1" then
-            lg.draw(self.tableImg,dj*SquareSize,di*SquareSize)
+            lg.draw(self.img.table,dj*SquareSize,di*SquareSize)
+         end
+         
+         if w == "6" then
+            lg.draw(self.img.tw,dj*SquareSize,di*SquareSize)
+         end
+         if w == "13" then
+            lg.draw(self.img.rw,dj*SquareSize,di*SquareSize)
+         end
+         if w == "14" then
+            lg.draw(self.img.bw,dj*SquareSize,di*SquareSize)
+         end
+         if w == "15" then
+            lg.draw(self.img.lw,dj*SquareSize,di*SquareSize)
+         end
+         
+         if w == "9" then
+            lg.draw(self.img.tlc,dj*SquareSize,di*SquareSize)
+         end
+         if w == "10" then
+            lg.draw(self.img.trc,dj*SquareSize,di*SquareSize)
+         end
+         if w == "11" then
+            lg.draw(self.img.blc,dj*SquareSize,di*SquareSize)
+         end
+         if w == "12" then
+            lg.draw(self.img.brc,dj*SquareSize,di*SquareSize)
          end
       end
-   end
-   for k,t in ipairs(self.walls) do 
-      lg.setColor(0,0,255)
-      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
    end
    --[[
    for k,t in ipairs(self.tables) do
