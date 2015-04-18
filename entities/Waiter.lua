@@ -16,7 +16,8 @@ function Waiter:initialize(x, y, scene)
    
    self.radius = 9
    self.restitution = 0.4
-   self.linearDamping = 1
+   self.linearDamping = 0.1
+   self.maxSpeed = 200
 
 	self.isApplyingForce = false
    self.mouse = {}
@@ -37,6 +38,7 @@ function Waiter:initialize(x, y, scene)
 
    self.step = 0
    self.isShooting = false
+   self.ready = false
 end
 
 function Waiter:update(dt)
@@ -47,8 +49,20 @@ function Waiter:update(dt)
       --]]
       local px,py = self.body:getX(),self.body:getY()
       local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
-      local dx,dy = mx-px,my-py
+      local dx,dy = (mx-px)/2,(my-py)/2
+      --[[
+      if vector.len(dx,dy) > self.maxSpeed then
+         dx,dy = vector.normalize(dx,dy)
+         dx,dy = dx*self.maxSpeed,dy*self.maxSpeed
+      end
+      ]]
       self:applyForce(dx,dy) 
+      if vector.len(self.body:getLinearVelocity()) > self.maxSpeed then
+         local vx,vy = self.body:getLinearVelocity()
+         vx,vy = vector.normalize(vx,vy)
+         self.body:setLinearVelocity(vx*self.maxSpeed,vy*self.maxSpeed)
+      end
+
    end
 
    self.legs:update(dt)
@@ -81,13 +95,11 @@ function Waiter:mousepressed(x, y, button)
 			self.isShooting = true
 		  Timer.tween(0.3, self, {step = 6}, "in-linear",
 			 function()
-			  self.plategun:shoot()
-           self.scene.cammgr:shake(0.8,2)
 			  self.step = 0
-			  self.isShooting = false
+			  self.ready = true
 			 end
 			 )
-     	 end
+		 end
 	 end
    end
 end
@@ -95,7 +107,14 @@ end
 function Waiter:mousereleased(x, y, button)
    if button == "l" then
       self.isApplyingForce = false
-   end
+  elseif button == "r" then
+	if self.ready then
+	  self.ready = false	
+	  self.isShooting = false
+		self.plategun:shoot()
+   		self.scene.cammgr:shake(0.9,2)
+	end
+  end
 end
 
 function Waiter:applyForce(x,y)
