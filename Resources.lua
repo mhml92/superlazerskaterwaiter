@@ -5,7 +5,7 @@ Resources.static.sounds = {}
 
 function Resources.static:getImage(filename)
 	if self.images[filename] == nil then
-		local path = "images/"..filename
+		local path = filename
 		self.images[filename] = lg.newImage(path)
 		self.images[filename]:setFilter("nearest", "nearest")
 	end
