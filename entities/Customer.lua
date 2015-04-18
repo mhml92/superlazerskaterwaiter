@@ -31,7 +31,11 @@ function Customer:initialize(x, y, scene)
 	self.w = self.scene.level.numTilesWidth
 	self.h = self.scene.level.numTilesHeight
 
-	self.quad = quads[math.floor(love.math.random(8))]
+	self.quad = quads[8]
+
+	self.lastx = self.x
+	self.lasty = self.y
+	self.angle = 0
 end
 
 function Customer:navigate(si, sj, ti, tj)
@@ -90,6 +94,8 @@ function Customer:addWaypoint(i, j)
 end
 
 function Customer:update(dt)
+	self.lastx = self.x
+	self.lasty = self.y
 	if self.walking == false and #self.waypoints > 0 then
 		self.walking = true
 		local point = table.remove(self.waypoints, 1)
@@ -102,7 +108,7 @@ function Customer:update(dt)
 end
 
 function Customer:draw()
-	love.graphics.draw(imgSrc, self.quad, self.x, self.y)
+	love.graphics.draw(imgSrc, self.quad, self.x-32, self.y-32, self.angle)
 end
 
 return Customer

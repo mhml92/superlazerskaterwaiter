@@ -34,7 +34,6 @@ end
 
 function Diner:keypressed(key, isrepeat)
 	if key == "s" then
-		print("HELL")
 		self.test = self:addEntity(Customer:new(0, 0, self))
 		self.test:navigate(2, 10, 8, 3)
 	end
