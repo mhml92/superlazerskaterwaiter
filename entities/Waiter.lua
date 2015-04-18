@@ -41,8 +41,6 @@ function Waiter:initialize(x, y, scene)
    self.platestack:addPlate()
    self.platestack:addPlate()
    self.platestack:addPlate()
-   self.scene:addEntity(self.platestack)
-
 end
 
 function Waiter:update(dt)
@@ -52,12 +50,13 @@ function Waiter:update(dt)
       -- Apply force in the direction of the mouse x,y
       --]]
       local px,py = self.body:getX(),self.body:getY()
-      local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())--love.mouse.getPosition()
+      local mx,my = love.mouse.getPosition()
       local dx,dy = mx-px,my-py
       self:applyForce(dx,dy) 
    end
 
    self.legs:update(dt)
+   self.platestack:update(dt)
 end
 
 function Waiter:getTranslation()
@@ -71,6 +70,7 @@ end
 function Waiter:draw()
 	self.legs:draw()
 	self.waiterbody:draw()
+	self.platestack:draw()
    --lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)
 end
 
