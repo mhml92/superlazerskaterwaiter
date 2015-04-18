@@ -3,7 +3,10 @@ local lg = love.graphics
 local lp = love.physics
 
 function Level:initialize(x, y,levelName, scene)
+   self.floorImg = Resources.static:getImage("floor.png")
+   self.tableImg = Resources.static:getImage("table.png")
    self.matrix = {}
+
    self.width = 0
    self.height = 0
    self.tables = {}
@@ -106,11 +109,21 @@ end
 
 function Level:draw()
    local halfSquare = SquareSize/2
+   local lg = love.graphics 
+   for i,v in ipairs(self.matrix) do
+      for j,w in ipairs(v) do
+         local di,dj = i-1,j-1
+         lg.draw(self.floorImg,dj*SquareSize,di*SquareSize)
+         if w == "1" then
+            lg.draw(self.tableImg,dj*SquareSize,di*SquareSize)
+         end
+      end
+   end
    for k,t in ipairs(self.walls) do 
       lg.setColor(0,0,255)
       lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
    end
-
+   --[[
    for k,t in ipairs(self.tables) do
       lg.setColor(255,0,0)
       lg.rectangle("fill", t.body:getX()-halfSquare, t.body:getY()-halfSquare, SquareSize,SquareSize)
@@ -143,7 +156,7 @@ function Level:draw()
       lg.setColor(127,0,0)
       lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
    end
-
+   ]]
    lg.setColor(255,255,255)
 end
 return Level

@@ -16,7 +16,8 @@ function Waiter:initialize(x, y, scene)
    
    self.radius = 9
    self.restitution = 0.4
-   self.linearDamping = 1
+   self.linearDamping = 0.1
+   self.maxSpeed = 200
 
 	self.isApplyingForce = false
    self.mouse = {}
@@ -48,8 +49,20 @@ function Waiter:update(dt)
       --]]
       local px,py = self.body:getX(),self.body:getY()
       local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
-      local dx,dy = mx-px,my-py
+      local dx,dy = (mx-px)/2,(my-py)/2
+      --[[
+      if vector.len(dx,dy) > self.maxSpeed then
+         dx,dy = vector.normalize(dx,dy)
+         dx,dy = dx*self.maxSpeed,dy*self.maxSpeed
+      end
+      ]]
       self:applyForce(dx,dy) 
+      if vector.len(self.body:getLinearVelocity()) > self.maxSpeed then
+         local vx,vy = self.body:getLinearVelocity()
+         vx,vy = vector.normalize(vx,vy)
+         self.body:setLinearVelocity(vx*self.maxSpeed,vy*self.maxSpeed)
+      end
+
    end
 
    self.legs:update(dt)
