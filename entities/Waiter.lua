@@ -28,19 +28,6 @@ function Waiter:initialize(x, y, scene)
    self.body:setLinearDamping(self.linearDamping)
 
    self.platestack = PlateStack:new(0, 0, self)
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
 end
 
 function Waiter:update(dt)
@@ -84,6 +71,12 @@ end
 
 function Waiter:applyForce(x,y)
    self.body:applyForce(x,y)
+end
+
+function Waiter:keypressed(key, isrepeat)
+	if key == " " then
+		self.platestack:addPlate()
+	end
 end
 
 
