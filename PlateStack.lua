@@ -14,8 +14,8 @@ end
 function PlateStack:addPlate()
 	if #self.stack == 0 then
 		local x, y, r = self.parent:getTranslation()
-		local cx, cy = self:offset(x, y, r)
-		local newPlate = Plate:new(cx, cy, self.scene)
+		local cx, cy = self:offset(17, 0, r)
+		local newPlate = Plate:new(x+cx,y+cy, self.scene)
 		self.scene:addEntity(newPlate)
 		table.insert(self.stack, newPlate)
 	else
@@ -33,8 +33,8 @@ function PlateStack:removePlate()
 end
 
 function PlateStack:offset(x, y, r)
-	local cx = x-math.cos(r)*40
-	local cy = y-math.sin(r)*40
+	local cx = x * math.cos(r) - y * math.sin(r)
+	local cy = x * math.sin(r) + y * math.cos(r)
 	return cx, cy
 end
 
