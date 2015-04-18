@@ -92,8 +92,8 @@ function Level:loadLevelFile(levelName)
          end
          y = y + 1
       end
-      self.width = (x+1) * SquareSize
-      self.height = (y+1) * SquareSize
+      self.width = (x) * SquareSize
+      self.height = (y) * SquareSize
    else
       print("No such level " .. path)
    end
