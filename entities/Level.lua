@@ -18,6 +18,7 @@ function Level:initialize(x, y,levelName, scene)
    self.img.lw    = Resources.static:getImage("lw.png")
    
    self.matrix = {}
+   self.flagmatrix = {}
 
    self.width = 0
    self.height = 0
@@ -45,8 +46,10 @@ function Level:loadLevelFile(levelName)
          dy = y *  SquareSize
          x = 0
          self.matrix[y+1] = {}
+		 self.flagmatrix[y+1] = {}
          for token in string.gmatch(line, "[^%s]+") do
             dx = x * SquareSize
+			self.flagmatrix[y+1][x+1] = false
             self.matrix[y+1][x+1] = token
             if token == "0" then
                local t = {}

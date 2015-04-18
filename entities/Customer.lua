@@ -12,15 +12,6 @@ local FROMTOILET = 7
 local HAPPY = 0
 local ANGRY = 1
 
-local grid = {}
-for i=1,15 do
-	grid[i] = {}
-	for j=1,18 do
-		grid[i][j] = 0
-	end
-end
-
-
 function Customer:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
 
@@ -31,10 +22,14 @@ function Customer:initialize(x, y, scene)
 	self.waypoints = {}
 	self.queue = {}
 	self.grid = self.scene.level.matrix
-	self.h = self.scene.level.numtileheight
+	self.flags = self.scene.level.flagmatrix
+	self.w = self.scene.level.numTilesWidth
+	self.h = self.scene.level.numTilesHeight
 end
 
 function Customer:navigate(si, sj, ti, tj)
+	local grid = self.grid
+	local flags = self.flags
 	self.queue = {}
 	self:addToQueue(si, sj)
 	self:addWaypoint(si, sj)
@@ -44,15 +39,16 @@ function Customer:navigate(si, sj, ti, tj)
 			self:addWaypoint(ti, tj)
 			return
 		end
-		local bestScore = 100000
-		local besti = 0
-		local bestj = 0
+		flags[current.row][current.col] = true
+		local bestScore = 1000000
+		local besti = -1
+		local bestj = -1
 		for ii=-1,1 do
 			for jj=-1,1 do
-				local cr, cc = current.row+ii, current.col+jj
-				if cr >= 1 and cr <= 15 and cc >= 1 and cc <= 18 then
-					if grid[cr][cc] ==  0 then
-						if ii~=0 or jj~=0 then
+				if (ii==0 or jj==0) and ii~=jj then
+					local cr, cc = current.row+ii, current.col+jj
+					if cr >= 1 and cr <= 15 and cc >= 1 and cc <= 18 then
+						if grid[cr][cc] == "0" and flags[cr][cc] == false then
 							local dist = (ti-cr)^2 + (tj-cc)^2
 							if dist < bestScore then
 								bestScore = dist
@@ -63,6 +59,9 @@ function Customer:navigate(si, sj, ti, tj)
 					end
 				end
 			end
+		end
+		if besti == -1 then
+			return
 		end
 		self:addToQueue(besti, bestj)
 		self:addWaypoint(besti, bestj)
@@ -88,7 +87,7 @@ function Customer:update(dt)
 		self.walking = true
 		local point = table.remove(self.waypoints, 1)
 		local tx, ty = 32*point.col, 32*point.row
-		Timer.tween(1, self, {x = tx, y = ty}, "in-linear",
+		Timer.tween(0.5, self, {x = tx, y = ty}, "in-linear",
 			function()
 				self.walking = false
 			end)
@@ -97,7 +96,7 @@ end
 
 function Customer:draw()
 	love.graphics.setColor(255, 0, 0)
-	love.graphics.circle("fill", self.x, self.y, 8)
+	love.graphics.circle("fill", self.x-16, self.y-16, 8)
 	love.graphics.setColor(255, 255, 255)
 end
 
