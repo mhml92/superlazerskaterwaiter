@@ -37,6 +37,10 @@ function Waiter:update(dt)
 
 end
 
+function Waiter:getTranslation()
+   return self.body:getX(),self.body:getY(),self.body:getAngle()
+end
+
 
 function Waiter:draw()
 	lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)

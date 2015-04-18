@@ -10,7 +10,9 @@ function Level:initialize(x, y,levelName, scene)
    self.counter = {}
    self.plateDeliveryZone = {}
    self.plateRecieverZoner = {}
-
+   self.counterZone = {}
+   self.leftdoor = {}
+   self.rightdoor = {}
    self:loadLevelFile(levelName)
 
    --[[self.body      = lp.newBody(self.scene.world, x, y, "dynamic")
@@ -37,6 +39,12 @@ function Level:loadLevelFile(levelName)
          x = 0
          for token in string.gmatch(line, "[^%s]+") do
             dx = x * SquareSize
+
+            if token == "0" then
+               local t = {}
+               t.x,t.y = dx,dy
+               table.insert(self.floor,t)
+            end
             
             if token == "1" then
                local t = {}
@@ -46,10 +54,51 @@ function Level:loadLevelFile(levelName)
                table.insert(self.tables,t)
             end
 
+            if token == "2" then
+               local t = {}
+               t.x,t.y = dx,dy
+               table.insert(self.counter,t)
+            end
+
+            if token == "3" then
+               local t = {}
+               t.x,t.y = dx,dy
+               table.insert(self.plateDeliveryZone,t)
+               
+            end
+
+            if token == "4" then
+               local t = {}
+               t.x,t.y = dx,dy
+               table.insert(self.plateRecieverZoner,t)
+               
+            end
+
+            
+            if token == "5" then
+               local t = {}
+               t.x,t.y = dx,dy
+               table.insert(self.counterZone,t)
+               
+            end
+
             if token == "6" then
                local t = {}
                t.x,t.y = dx,dy
                table.insert(self.walls,t)
+            end
+            
+            if token == "7" then
+               local t = {}
+               t.x,t.y = dx,dy
+               table.insert(self.leftdoor,t)
+               
+            end
+            if token == "8" then
+               local t = {}
+               t.x,t.y = dx,dy
+               table.insert(self.rightdoor,t)
+               
             end
             x = x + 1
          end
@@ -73,6 +122,19 @@ function Level:draw()
       lg.setColor(255,0,0)
       lg.rectangle("fill", t.body:getX()-halfSquare, t.body:getY()-halfSquare, SquareSize,SquareSize)
    end
+   for k,t in ipairs(self.floor) do 
+      lg.setColor(0,255,0)
+      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
+   end
+   for k,t in ipairs(self.counter) do 
+      lg.setColor(0,255,0)
+      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
+   end
+   self.plateDeliveryZone = {}
+   self.plateRecieverZoner = {}
+   self.counterZone = {}
+   self.leftdoor = {}
+   self.rightdoor = {}
 
    lg.setColor(255,255,255)
 end
