@@ -22,7 +22,6 @@ function Resources.static:getSound(filename)
 end
 
 function Resources.static:loadAll()
-   Resources.static:getSound("slime.mp3")
 end
 
 

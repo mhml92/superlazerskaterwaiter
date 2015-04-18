@@ -42,4 +42,10 @@ end
 function Entity:mousereleased(x, y, button)
 end
 
+function Entity:applyForce(x,y)
+   print("implement applyForce")
+end
+
+
+
 return Entity

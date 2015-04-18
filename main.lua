@@ -4,8 +4,11 @@ class       = require 'middleclass/middleclass'
 Scene       = require 'Scene'
 Entity      = require 'Entity' 
 Resources   = require 'Resources'
+vector      = require 'hump/vector-light'
 
-local TestScene = require "TestScene"
+SquareSize = 32
+--Scenes
+local Diner       = require 'scenes/Diner'
 
 local time = {}
 time.fdt = 1/60 --fixed delta time
@@ -14,12 +17,12 @@ time.accum = 0
 
 local self = {}
 
+
 function love.load()
-   --love.mouse.setVisible(false)
    local w,h = love.graphics.getDimensions()
    love.graphics.setScissor( 0, 0, w, h)
    Resources.static:loadAll() 
-   self.scene = TestScene:new()   
+   self.scene = Diner:new()   
 end
 
 function love.update(dt)
