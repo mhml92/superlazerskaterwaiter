@@ -3,6 +3,7 @@ local lg = love.graphics
 local lp = love.physics
 
 function Level:initialize(x, y,levelName, scene)
+   self.matrix = {}
    self.width = 0
    self.height = 0
    self.tables = {}
@@ -21,13 +22,15 @@ function Level:loadLevelFile(levelName)
    local path = "levels/"..levelName 
    local x,y = 0,0
    local halfSquare = SquareSize/2
+
    if love.filesystem.exists(path) then
       for line in love.filesystem.lines(path) do
          dy = y *  SquareSize
          x = 0
+         self.matrix[y+1] = {}
          for token in string.gmatch(line, "[^%s]+") do
             dx = x * SquareSize
-
+            self.matrix[y+1][x+1] = token
             if token == "0" then
                local t = {}
                t.x,t.y = dx,dy
