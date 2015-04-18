@@ -7,8 +7,8 @@ local PlateStack = require "PlateStack"
 local PlateGun = require "PlateGun"
 local imgSrc = Resources.static:getImage("waiter.png")
 local quad = {}
-for i=0,4 do
-	quad[i] = love.graphics.newQuad(i*70, 0, 70, 60, 350, 60)
+for i=0,5 do
+	quad[i] = love.graphics.newQuad(i*70, 0, 70, 60, 420, 60)
 end
 
 function Waiter:initialize(x, y, scene)
@@ -25,7 +25,6 @@ function Waiter:initialize(x, y, scene)
    
 
    self.legs = Legs:new(self)
-   self.waiterbody = Sprite:new(self, "waiter.png", 35, 30)
 
    self.body      = lp.newBody(self.scene.world, x, y, "dynamic")
 	self.shape     = lp.newCircleShape(self.radius)
@@ -37,6 +36,8 @@ function Waiter:initialize(x, y, scene)
    self.plategun = PlateGun:new(0,0,self)
 
    self.step = 0
+   self.isShooting = false
+   self.ready = false
 end
 
 function Waiter:update(dt)
@@ -65,12 +66,10 @@ end
 
 function Waiter:draw()
 	self.legs:draw()
-	local frame = math.floor(self.step)
+	local frame = math.min(5, math.floor(self.step))
 	local x, y, r = self:getTranslation()
 	love.graphics.draw(imgSrc, quad[frame], x, y, r, 1, 1, 35, 30)
-	--self.waiterbody:draw()
 	self.platestack:draw()
-   --lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)
 end
 
 function Waiter:mousepressed(x, y, button)
@@ -78,21 +77,31 @@ function Waiter:mousepressed(x, y, button)
       self.isApplyingForce = true
    end
    if button == "r" then
-      if self.platestack:removePlate() then
-		  Timer.tween(0.2, self, {step = 5}, "in-linear",
-		 	 function()
-			  self.plategun:shoot()
+	   if self.isShooting == false then
+		if self.platestack:removePlate() then
+			self.isShooting = true
+		  Timer.tween(0.3, self, {step = 6}, "in-linear",
+			 function()
 			  self.step = 0
+			  self.ready = true
 			 end
 			 )
-      end
+		 end
+	 end
    end
 end
 
 function Waiter:mousereleased(x, y, button)
    if button == "l" then
       self.isApplyingForce = false
-   end
+  elseif button == "r" then
+	if self.ready then
+	  self.ready = false	
+	  self.isShooting = false
+		self.plategun:shoot()
+   		self.scene.cammgr:shake(0.9,2)
+	end
+  end
 end
 
 function Waiter:applyForce(x,y)
