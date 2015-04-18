@@ -3,6 +3,7 @@ local Diner = class("Diner", Scene)
 local Waiter   = require "entities/Waiter"
 local Level    = require "entities/Level"
 local CameraManager = require "CameraManager"
+local Customer = require "entities/Customer"
 
 local METER = SquareSize
 
@@ -29,6 +30,15 @@ function Diner:draw()
    self.level:draw()
 	Scene.draw(self)
    self.cammgr:detach()
+end
+
+function Diner:keypressed(key, isrepeat)
+	if key == "s" then
+		print("HELL")
+		self.test = self:addEntity(Customer:new(0, 0, self))
+		self.test:navigate(1, 5, 15, 15)
+	end
+	Scene.keypressed(self, key, isrepeat)
 end
 
 return Diner
