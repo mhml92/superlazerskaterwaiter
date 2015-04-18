@@ -3,6 +3,8 @@ local lg = love.graphics
 local lp = love.physics
 
 function Level:initialize(x, y,levelName, scene)
+   self.width = 0
+   self.height = 0
    self.tables = {}
    self.scene = scene
    self.walls = {}
@@ -21,7 +23,6 @@ function Level:loadLevelFile(levelName)
    local halfSquare = SquareSize/2
    if love.filesystem.exists(path) then
       for line in love.filesystem.lines(path) do
-         print("line")
          dy = y *  SquareSize
          x = 0
          for token in string.gmatch(line, "[^%s]+") do
@@ -91,6 +92,8 @@ function Level:loadLevelFile(levelName)
          end
          y = y + 1
       end
+      self.width = (x+1) * SquareSize
+      self.height = (y+1) * SquareSize
    else
       print("No such level " .. path)
    end
