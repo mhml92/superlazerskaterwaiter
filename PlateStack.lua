@@ -19,13 +19,14 @@ function PlateStack:addPlate()
 end
 
 function PlateStack:removePlate()
-
+	if #self.stack > 0 then
+		table.remove(self.stack)
+		return true
+	end
+	return false
 end
 
 function PlateStack:offset(x, y, r)
-	local cx = x-math.cos(r)*40
-	local cy = y-math.sin(r)*40
-	return cx, cy
 end
 
 function PlateStack:update(dt)
@@ -48,8 +49,10 @@ function PlateStack:update(dt)
 end
 
 function PlateStack:draw()
+	local size = #self.stack
 	for i=1,#self.stack do
-		self.stack[i]:draw()
+		local intensity = (i/size)*255
+		self.stack[i]:draw(intensity)
 	end
 end
 
