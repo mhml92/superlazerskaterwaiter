@@ -18,6 +18,7 @@ function Diner:initialize()
 end
 
 function Diner:update(dt)
+	Timer.update(dt)
    self.cammgr:update(self.level.width/2,self.level.height/2)
 	self.world:update(dt)
 	Scene.update(self, dt)

@@ -5,6 +5,11 @@ local lp = love.physics
 local Legs = require 'Legs'
 local PlateStack = require "PlateStack"
 local PlateGun = require "PlateGun"
+local imgSrc = Resources.static:getImage("waiter.png")
+local quad = {}
+for i=0,4 do
+	quad[i] = love.graphics.newQuad(i*70, 0, 70, 60, 350, 60)
+end
 
 function Waiter:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
@@ -30,6 +35,8 @@ function Waiter:initialize(x, y, scene)
 
    self.platestack = PlateStack:new(0, 0, self)
    self.plategun = PlateGun:new(0,0,self)
+
+   self.step = 0
 end
 
 function Waiter:update(dt)
@@ -58,7 +65,10 @@ end
 
 function Waiter:draw()
 	self.legs:draw()
-	self.waiterbody:draw()
+	local frame = math.floor(self.step)
+	local x, y, r = self:getTranslation()
+	love.graphics.draw(imgSrc, quad[frame], x, y, r, 1, 1, 35, 30)
+	--self.waiterbody:draw()
 	self.platestack:draw()
    --lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)
 end
@@ -69,7 +79,12 @@ function Waiter:mousepressed(x, y, button)
    end
    if button == "r" then
       if self.platestack:removePlate() then
-         self.plategun:shoot() 
+		  Timer.tween(0.2, self, {step = 5}, "in-linear",
+		 	 function()
+			  self.plategun:shoot()
+			  self.step = 0
+			 end
+			 )
       end
    end
 end
