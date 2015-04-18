@@ -1,28 +1,10 @@
-local PlateStack = class("PlateStack", Entity)
+local PlateGun = class("PlateGun", Entity)
 
-local Plate = require "Plate"
 
-function PlateStack:initialize(x, y, parent)
+function PlateGun:initialize(x, y, parent)
 	Entity.initialize(self, 0, 0, parent.scene)
 	self.parent = parent
 
-	self.stack = {}
-	self.joint = {}
-end
-
-function PlateStack:addPlate()
-	local x, y, r = self.parent:getTranslation()
-	local cx, cy = self:offset(0, 20, r)
-	local newPlate = Plate:new(x+cx,y+ cy, self.scene)
-	table.insert(self.stack, newPlate)
-end
-
-function PlateStack:removePlate()
-	if #self.stack > 0 then
-		table.remove(self.stack, 1)
-		return true
-	end
-	return false
 end
 
 function PlateStack:offset(x, y, r)
