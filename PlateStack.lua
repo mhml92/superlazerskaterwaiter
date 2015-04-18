@@ -8,7 +8,6 @@ function PlateStack:initialize(x, y, parent)
 
 	self.stack = {}
 	self.joint = {}
-
 end
 
 function PlateStack:addPlate()
@@ -20,7 +19,7 @@ end
 
 function PlateStack:removePlate()
 	if #self.stack > 0 then
-		table.remove(self.stack)
+		table.remove(self.stack, 1)
 		return true
 	end
 	return false
