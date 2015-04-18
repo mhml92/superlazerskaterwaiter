@@ -28,19 +28,6 @@ function Waiter:initialize(x, y, scene)
    self.body:setLinearDamping(self.linearDamping)
 
    self.platestack = PlateStack:new(0, 0, self)
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
-   self.platestack:addPlate()
 end
 
 function Waiter:update(dt)
@@ -50,7 +37,7 @@ function Waiter:update(dt)
       -- Apply force in the direction of the mouse x,y
       --]]
       local px,py = self.body:getX(),self.body:getY()
-      local mx,my = love.mouse.getPosition()
+      local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
       local dx,dy = mx-px,my-py
       self:applyForce(dx,dy) 
    end
@@ -84,6 +71,12 @@ end
 
 function Waiter:applyForce(x,y)
    self.body:applyForce(x,y)
+end
+
+function Waiter:keypressed(key, isrepeat)
+	if key == " " then
+		self.platestack:addPlate()
+	end
 end
 
 

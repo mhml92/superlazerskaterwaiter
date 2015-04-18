@@ -6,12 +6,14 @@ function Plate:initialize(x, y, scene)
 	self.oy = love.math.random(6)-3
 end
 
-function Plate:draw()
+function Plate:draw(intensity)
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.circle("fill", self.x+self.ox, self.y+self.oy, 8)
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.circle("line", self.x+self.ox, self.y+self.oy, 8)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(0, 0, 0, intensity)
+	love.graphics.circle("fill", self.x+self.ox, self.y+self.oy, 8)
+	love.graphics.setColor(255, 255, 255, 255)
 end
 
 return Plate
