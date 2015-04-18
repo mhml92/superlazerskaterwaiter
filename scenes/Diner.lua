@@ -14,12 +14,14 @@ function Diner:initialize()
    self.level = Level:new(0,0,"level0.lvl",self)
    self.cammgr = CameraManager:new(self)
 
-   self:addEntity(Waiter:new(400, 100, self))
+   self.waiter = self:addEntity(Waiter:new(400, 100, self))
 end
 
 function Diner:update(dt)
 	Timer.update(dt)
-   self.cammgr:update(self.level.width/2,self.level.height/2)
+
+   --self.cammgr:update(self.level.width/2,self.level.height/2)
+   self.cammgr:update(self.waiter.x,self.waiter.y)
 	self.world:update(dt)
 	Scene.update(self, dt)
 end

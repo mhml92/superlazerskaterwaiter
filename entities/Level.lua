@@ -20,6 +20,10 @@ function Level:initialize(x, y,levelName, scene)
 
    self.img.chair    = Resources.static:getImage("chair.png")
    
+   self.img.prz1    = Resources.static:getImage("prz1.png")
+   self.img.prz2    = Resources.static:getImage("prz2.png")
+   self.img.prz3    = Resources.static:getImage("prz3.png")
+   
    self.matrix = {}
 
    self.width = 0
@@ -181,6 +185,16 @@ function Level:draw()
          if w == "16" then
             lg.draw(self.img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.2,1.2,16,16)
             lg.draw(self.img.chair,dj*SquareSize,di*SquareSize)
+         end
+         
+         if w == "41" then
+            lg.draw(self.img.prz1,dj*SquareSize,di*SquareSize)
+         end
+         if w == "42" then
+            lg.draw(self.img.prz2,dj*SquareSize,di*SquareSize)
+         end
+         if w == "43" then
+            lg.draw(self.img.prz3,dj*SquareSize,di*SquareSize)
          end
       end
    end

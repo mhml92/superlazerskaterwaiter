@@ -70,6 +70,7 @@ function Waiter:update(dt)
 
    self.legs:update(dt)
    self.platestack:update(dt)
+   self.x,self.y = self.body:getPosition()
 end
 
 function Waiter:getTranslation()

@@ -18,16 +18,26 @@ function CameraManager:initialize(scene)
    else
       zoomFactor = w/lvlw
    end
-   print(zoomFactor)
-   self.cam:zoomTo(zoomFactor)
+
+   self.cam:zoomTo(2)
    -- shake vars
    self.rate = 0
    self.shakeStrength = 0
    self.offX = 0
    self.offY = 0
+   self.x = nil
+   self.y = nil
+   -- camera loosness multiplyer
+   self.clm = 0.2
 end
 
 function CameraManager:update(x,y)
+   if self.x == nil then
+      self.x,self.y = x,y
+   end
+   local dx,dy = x-self.x,y-self.y
+   self.x,self.y = self.x + (dx*self.clm),self.y + (dy*self.clm)
+
    if self.shakeStrength > 0.01 then
       local sdir = math.random()*2*math.pi
       self.offX = math.cos(sdir)*self.shakeStrength
@@ -35,7 +45,7 @@ function CameraManager:update(x,y)
       self.shakeStrength = self.shakeStrength*self.rate
    end
 
-   self.cam:lookAt(x + self.offX,y + self.offY)
+   self.cam:lookAt(self.x + self.offX,self.y + self.offY)
 end
 
 function CameraManager:attach()
