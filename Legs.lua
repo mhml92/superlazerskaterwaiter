@@ -12,14 +12,14 @@ function Legs:initialize(parent)
 end
 
 function Legs:update(dt)
-	self.step = self.step + 5*dt
+	self.step = self.step + 10*dt
 
 end
 
 function Legs:draw()
-	local frame = math.floor(step%12)
+	local frame = math.floor(self.step%12)
 	local x, y, r = self.parent:getTranslation()
-	love.graphcis(quad[frame], x, y, r, 2, 2)
+	love.graphics.draw(src,quad[frame], x, y, r, 1, 1,17,25)
 end
 
 return Legs

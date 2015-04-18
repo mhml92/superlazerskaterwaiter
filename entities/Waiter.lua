@@ -2,6 +2,8 @@ local Waiter = class("Waiter", Entity)
 local lg = love.graphics
 local lp = love.physics
 
+local Legs = require 'Legs'
+
 function Waiter:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
    
@@ -14,6 +16,9 @@ function Waiter:initialize(x, y, scene)
    self.mouse.x = 0
    self.mouse.y = 0
    
+
+   self.legs = Legs:new(self)
+
    self.body      = lp.newBody(self.scene.world, x, y, "dynamic")
 	self.shape     = lp.newCircleShape(self.radius)
 	self.fixture   = lp.newFixture(self.body, self.shape)
@@ -34,16 +39,17 @@ function Waiter:update(dt)
       self:applyForce(dx,dy) 
    end
 
-
+   self.legs:update(dt)
 end
 
 function Waiter:getTranslation()
-   return self.body:getX(),self.body:getY(),self.body:getAngle()
+   return self.body:getX(),self.body:getY(),vector.angleTo(self.body:getLinearVelocity())+math.pi/2
 end
 
 
 function Waiter:draw()
-	lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)
+	self.legs:draw()
+   --lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)
 end
 
 function Waiter:mousepressed(x, y, button)
