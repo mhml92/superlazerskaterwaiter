@@ -18,6 +18,7 @@ function Waiter:initialize(x, y, scene)
    
 
    self.legs = Legs:new(self)
+   self.waiterbody = Sprite:new(self, "waiter.png", 35, 30)
 
    self.body      = lp.newBody(self.scene.world, x, y, "dynamic")
 	self.shape     = lp.newCircleShape(self.radius)
@@ -46,9 +47,13 @@ function Waiter:getTranslation()
    return self.body:getX(),self.body:getY(),vector.angleTo(self.body:getLinearVelocity())+math.pi/2
 end
 
+function Waiter:getVelocity()
+	return self.body:getLinearVelocity()
+end
 
 function Waiter:draw()
 	self.legs:draw()
+	self.waiterbody:draw()
    --lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)
 end
 
