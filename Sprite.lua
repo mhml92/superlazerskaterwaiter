@@ -15,3 +15,5 @@ function Sprite:draw()
 	local x, y, r = self.parent:getTranslation()
 	love.graphics.draw(self.src, x, y, r, 1, 1, self.offsetx, self.offsety)
 end
+
+return Sprite

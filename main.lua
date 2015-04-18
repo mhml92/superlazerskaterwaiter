@@ -1,6 +1,7 @@
 math.random = love.math.random
 require 'slam/slam'
 class       = require 'middleclass/middleclass'
+Sprite		= require 'Sprite'
 Scene       = require 'Scene'
 Entity      = require 'Entity' 
 Resources   = require 'Resources'
