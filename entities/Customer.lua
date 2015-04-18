@@ -18,6 +18,25 @@ function Customer:initialize(x, y, scene)
 
 	self.state = ENTERING
 	self.mood = HAPPY
+
+	self.waypoints = {}
+end
+
+function Customer:navigate(i, j)
+	local grid
+	local queue = {}
+	self:addToQueue(queue, i, j)
+	while #queue > 0 do
+		
+	end
+
+end
+
+function Customer:addToQueue(queue, i, j)
+	local tmp = {}
+	tmp.col = j
+	tmp.row = i
+	table.insert(queue, tmp)
 end
 
 function Customer:update(dt)
