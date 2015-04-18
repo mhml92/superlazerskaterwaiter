@@ -1,10 +1,10 @@
-local Level = class("Level", Entity)
+local Level = class("Level")
 local lg = love.graphics
 local lp = love.physics
 
 function Level:initialize(x, y,levelName, scene)
-	Entity.initialize(self, x, y, scene)
    self.tables = {}
+   self.scene = scene
    self.walls = {}
    self.floor = {}
    self.counter = {}
@@ -14,20 +14,7 @@ function Level:initialize(x, y,levelName, scene)
    self.leftdoor = {}
    self.rightdoor = {}
    self:loadLevelFile(levelName)
-
-   --[[self.body      = lp.newBody(self.scene.world, x, y, "dynamic")
-	self.shape     = lp.newCircleShape(self.radius)
-	self.fixture   = lp.newFixture(self.body, self.shape)
-	self.fixture:setRestitution(self.restitution)
-   self.body:setLinearDamping(self.linearDamping)
-    ]]
-
 end
-
-function Level:update(dt)
-
-end
-
 function Level:loadLevelFile(levelName)
    local path = "levels/"..levelName 
    local x,y = 0,0
@@ -127,29 +114,30 @@ function Level:draw()
       lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
    end
    for k,t in ipairs(self.counter) do 
-      lg.setColor(0,255,0)
+      lg.setColor(127,255,0)
       lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
    end
-   self.plateDeliveryZone = {}
-   self.plateRecieverZoner = {}
-   self.counterZone = {}
-   self.leftdoor = {}
-   self.rightdoor = {}
+   for k,t in ipairs(self.plateDeliveryZone) do 
+      lg.setColor(0,255,127)
+      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
+   end
+   for k,t in ipairs(self.plateRecieverZoner) do 
+      lg.setColor(0,127,127)
+      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
+   end
+   for k,t in ipairs(self.counterZone) do 
+      lg.setColor(127,127,127)
+      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
+   end
+   for k,t in ipairs(self.leftdoor) do 
+      lg.setColor(127,127,0)
+      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
+   end
+   for k,t in ipairs(self.rightdoor) do 
+      lg.setColor(127,0,0)
+      lg.rectangle("fill", t.x, t.y, SquareSize,SquareSize)
+   end
 
    lg.setColor(255,255,255)
 end
-
-function Level:mousepressed(x, y, button)
-   self.isApplyingForce = true
-end
-
-function Level:mousereleased(x, y, button)
-   self.isApplyingForce = false
-end
-
-function Level:applyForce(x,y)
-   self.body:applyForce(x,y)
-end
-
-
 return Level
