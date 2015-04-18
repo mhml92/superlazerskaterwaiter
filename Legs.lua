@@ -1,25 +1,22 @@
-local Legs = class("Legs")
-
-local src = love.graphics.newImage("legs.png")
-local quad = {}
-for i=0,11 do
-	quad[i] = love.graphics.newQuad(i*34, 0, 34, 50, 408, 50)
-end
+local Legs = class("Legs", Sprite)
 
 function Legs:initialize(parent)
-	self.parent = parent
+	Sprite.initialize(self, parent, "legs.png")
+	self.quad = {}
+	for i=0,11 do
+		self.quad[i] = love.graphics.newQuad(i*34, 0, 34, 50, 408, 50)
+	end
 	self.step = 0
 end
 
 function Legs:update(dt)
-	self.step = self.step + 10*dt
-
+	self.step = self.step + 5*dt
 end
 
 function Legs:draw()
-	local frame = math.floor(self.step%12)
+	local frame = math.floor(step%12)
 	local x, y, r = self.parent:getTranslation()
-	love.graphics.draw(src,quad[frame], x, y, r, 1, 1,17,25)
+	love.graphcis(quad[frame], x, y, r, 2, 2, 17, 25)
 end
 
 return Legs
