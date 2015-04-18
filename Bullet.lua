@@ -15,10 +15,11 @@ function Bullet:initialize(parent)
    self.dir = pr - math.pi/2
    self.radius = 8
    self.force = 100
-   self.rot = love.math.random()*2*math.pi
+   self.rot = math.random()*2*math.pi
    self.deltaRot = (love.math.random()*math.pi/16) - ((love.math.random()*math.pi/16)/2)
   
    self.body      = lp.newBody(self.scene.world, self.x, self.y, "dynamic")
+   print(self.x,self.y)
 	self.shape     = lp.newCircleShape(self.radius)
 	self.fixture   = lp.newFixture(self.body, self.shape)
 
@@ -28,7 +29,7 @@ function Bullet:initialize(parent)
    self.body:applyLinearImpulse(self.force*math.cos(self.dir),self.force*math.sin(self.dir))
 	self.parent = parent
    
-   self.pnum = math.floor(love.math.random()*(3-0.001))+1
+   self.pnum = math.floor(math.random()*(3-0.001))+1
 end
 
 function Bullet:offset(x, y, r)
@@ -42,7 +43,7 @@ function Bullet:update(dt)
 end
 
 function Bullet:draw()
-	love.graphics.draw(imgSrc, plates[self.pnum], self.body:getX(), self.body:getY(), self.rot, 1, 1, 17, 25)
+	love.graphics.draw(imgSrc, plates[self.pnum], self.body:getX(), self.body:getY(), self.rot, 1, 1, 8, 8)
 end
 
 return Bullet
