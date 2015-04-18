@@ -24,6 +24,8 @@ function Waiter:initialize(x, y, scene)
    self.mouse.x = 0
    self.mouse.y = 0
    
+   self.img = {}
+   self.img.shadow    = Resources.static:getImage("shadow.png")
 
    self.legs = Legs:new(self)
 
@@ -81,6 +83,7 @@ function Waiter:draw()
 	self.legs:draw()
 	local frame = math.min(7, math.floor(self.step))
 	local x, y, r = self:getTranslation()
+   love.graphics.draw(self.img.shadow,x,y,0,1.3,1.3,16,16)
 	love.graphics.draw(imgSrc, quad[frame], x, y, r, 1, 1, 35, 30)
 	self.platestack:draw()
 end

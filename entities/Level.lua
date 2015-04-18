@@ -16,6 +16,9 @@ function Level:initialize(x, y,levelName, scene)
    self.img.rw    = Resources.static:getImage("rw.png")
    self.img.bw    = Resources.static:getImage("bw.png")
    self.img.lw    = Resources.static:getImage("lw.png")
+   self.img.shadow    = Resources.static:getImage("shadow.png")
+
+   self.img.chair    = Resources.static:getImage("chair.png")
    
    self.matrix = {}
 
@@ -48,6 +51,15 @@ function Level:loadLevelFile(levelName)
          for token in string.gmatch(line, "[^%s]+") do
             dx = x * SquareSize
             self.matrix[y+1][x+1] = token
+            
+            if token == "1" then
+               local t = {}
+               t.body = lp.newBody(self.scene.world,dx+halfSquare,dy+halfSquare,"static")
+               t.shape = lp.newRectangleShape(SquareSize,SquareSize)
+               t.fixture = lp.newFixture(t.body,t.shape)
+               table.insert(self.tables,t)
+            end
+            --[[
             if token == "0" then
                local t = {}
                t.x,t.y = dx,dy
@@ -108,6 +120,7 @@ function Level:loadLevelFile(levelName)
                table.insert(self.rightdoor,t)
                
             end
+            ]]
             x = x + 1
          end
          y = y + 1
@@ -130,7 +143,13 @@ function Level:draw()
       for j,w in ipairs(v) do
          local di,dj = i-1,j-1
          lg.draw(self.img.floor,dj*SquareSize,di*SquareSize)
+      end
+   end
+   for i,v in ipairs(self.matrix) do
+      for j,w in ipairs(v) do
+         local di,dj = i-1,j-1
          if w == "1" then
+            lg.draw(self.img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.3,1.3,16,16)
             lg.draw(self.img.table,dj*SquareSize,di*SquareSize)
          end
          
@@ -158,6 +177,10 @@ function Level:draw()
          end
          if w == "12" then
             lg.draw(self.img.brc,dj*SquareSize,di*SquareSize)
+         end
+         if w == "16" then
+            lg.draw(self.img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.2,1.2,16,16)
+            lg.draw(self.img.chair,dj*SquareSize,di*SquareSize)
          end
       end
    end
