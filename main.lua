@@ -6,6 +6,7 @@ Scene       = require 'Scene'
 Entity      = require 'Entity' 
 Resources   = require 'Resources'
 vector      = require 'hump/vector-light'
+timer		= require "hump/timer"
 
 SquareSize = 32
 --Scenes
