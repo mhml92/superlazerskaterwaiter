@@ -4,6 +4,7 @@ local lp = love.physics
 
 local Legs = require 'Legs'
 local PlateStack = require "PlateStack"
+local PlateGun = require "PlateGun"
 
 function Waiter:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
@@ -28,6 +29,7 @@ function Waiter:initialize(x, y, scene)
    self.body:setLinearDamping(self.linearDamping)
 
    self.platestack = PlateStack:new(0, 0, self)
+   self.plategun = PlateGun:new(0,0,self)
 end
 
 function Waiter:update(dt)
@@ -37,7 +39,7 @@ function Waiter:update(dt)
       -- Apply force in the direction of the mouse x,y
       --]]
       local px,py = self.body:getX(),self.body:getY()
-      local mx,my = love.mouse.getPosition()
+      local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
       local dx,dy = mx-px,my-py
       self:applyForce(dx,dy) 
    end
@@ -62,11 +64,20 @@ function Waiter:draw()
 end
 
 function Waiter:mousepressed(x, y, button)
-   self.isApplyingForce = true
+   if button == "l" then
+      self.isApplyingForce = true
+   end
+   if button == "r" then
+      if self.platestack:removePlate() then
+         self.plategun:shoot() 
+      end
+   end
 end
 
 function Waiter:mousereleased(x, y, button)
-   self.isApplyingForce = false
+   if button == "l" then
+      self.isApplyingForce = false
+   end
 end
 
 function Waiter:applyForce(x,y)
