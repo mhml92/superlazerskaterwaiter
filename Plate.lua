@@ -14,9 +14,9 @@ function Plate:initialize(x, y, scene)
 end
 
 function Plate:draw(intensity)
-	love.graphics.draw(imgSrc, self.quad, self.x+self.ox, self.y+self.oy)
+	love.graphics.draw(imgSrc, self.quad, self.x+self.ox-8, self.y+self.oy-8)
 	love.graphics.setColor(0, 0, 0, intensity)
-	love.graphics.draw(imgSrc, self.quad, self.x+self.ox, self.y+self.oy)
+	love.graphics.draw(imgSrc, self.quad, self.x+self.ox-8, self.y+self.oy-8)
 	love.graphics.setColor(255, 255, 255, 255)
 end
 
