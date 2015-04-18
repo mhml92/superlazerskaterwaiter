@@ -3,6 +3,7 @@ local lg = love.graphics
 local lp = love.physics
 
 local Legs = require 'Legs'
+local PlateStack = require "PlateStack"
 
 function Waiter:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
@@ -25,6 +26,22 @@ function Waiter:initialize(x, y, scene)
 	self.fixture   = lp.newFixture(self.body, self.shape)
 	self.fixture:setRestitution(self.restitution)
    self.body:setLinearDamping(self.linearDamping)
+
+   self.platestack = PlateStack:new(0, 0, self)
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.platestack:addPlate()
+   self.scene:addEntity(self.platestack)
 
 end
 
