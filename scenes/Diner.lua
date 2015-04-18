@@ -8,7 +8,7 @@ function Diner:initialize()
    Scene.initialize(self)
    love.physics.setMeter(METER)
    self.world = love.physics.newWorld(0,0, true)
-   self:addEntity(Level:new(0,0,"level0.lvl",self))
+   level = Level:new(0,0,"level0.lvl",self)
    self:addEntity(Waiter:new(400, 100, self))
 end
 
@@ -18,6 +18,7 @@ function Diner:update(dt)
 end
 
 function Diner:draw()
+   level:draw()
 	Scene.draw(self)
 end
 
