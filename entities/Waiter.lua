@@ -41,8 +41,6 @@ function Waiter:initialize(x, y, scene)
    self.platestack:addPlate()
    self.platestack:addPlate()
    self.platestack:addPlate()
-   self.scene:addEntity(self.platestack)
-
 end
 
 function Waiter:update(dt)
@@ -58,6 +56,7 @@ function Waiter:update(dt)
    end
 
    self.legs:update(dt)
+   self.platestack:update(dt)
 end
 
 function Waiter:getTranslation()
@@ -71,6 +70,7 @@ end
 function Waiter:draw()
 	self.legs:draw()
 	self.waiterbody:draw()
+	self.platestack:draw()
    --lg.circle("fill", self.body:getX(), self.body:getY(), self.radius)
 end
 
