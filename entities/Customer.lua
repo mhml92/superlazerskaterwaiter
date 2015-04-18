@@ -1,5 +1,10 @@
 local Customer = class("Customer", Entity)
 
+local imgSrc = Resources.static:getImage("persons.png")
+local quads = {}
+for i=0,8 do
+	quads[i] = love.graphics.newQuad(i*32, 0, 32, 32, 288, 32)
+end
 
 local ENTERING = 0
 local ORDERING = 1
@@ -25,6 +30,8 @@ function Customer:initialize(x, y, scene)
 	self.flags = self.scene.level.flagmatrix
 	self.w = self.scene.level.numTilesWidth
 	self.h = self.scene.level.numTilesHeight
+
+	self.quad = quads[math.floor(love.math.random(8))]
 end
 
 function Customer:navigate(si, sj, ti, tj)
@@ -95,9 +102,7 @@ function Customer:update(dt)
 end
 
 function Customer:draw()
-	love.graphics.setColor(255, 0, 0)
-	love.graphics.circle("fill", self.x-16, self.y-16, 8)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.draw(imgSrc, self.quad, self.x, self.y)
 end
 
 return Customer
