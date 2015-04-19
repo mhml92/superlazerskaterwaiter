@@ -38,10 +38,10 @@ function Customer:initialize(x, y, scene, person)
 
 	self.lastx = self.x
 	self.lasty = self.y
-	self.angle = 0
+	self.angle = math.random()*2*math.pi
 
    local phys = love.physics
-	self.body = phys.newBody(self.scene.world, x+(self.width/2), y+(self.height/2), "kinematic")
+	self.body = phys.newBody(self.scene.world, x, y, "kinematic")
 	self.shape = phys.newCircleShape(self.radius)
 	self.fixture = phys.newFixture(self.body, self.shape)
    self.fixture:setUserData(self)
@@ -110,9 +110,12 @@ function Customer:update(dt)
 		else
 			self:arrived()
 		end
-	end
-   self.body:setX(self.x-32)
-   self.body:setY(self.y-32)
+   end
+   local ox,oy = self.body:getX(),self.body:getY()
+   self.body:setX(self.x-16)
+   self.body:setY(self.y-16)
+   
+   self.angle = vector.angleTo(self.body:getX()-ox,self.body:getY()-oy) + math.pi/2
 end
 
 function Customer:arrived()
@@ -123,7 +126,7 @@ function Customer:arrived()
 end
 
 function Customer:draw()
-	love.graphics.draw(imgSrc, self.quad, self.x-32, self.y-32, self.angle)
+	love.graphics.draw(imgSrc, self.quad, self.x-16, self.y-16, self.angle,1,1,16,16)
 end
 
 function Customer:exit()
