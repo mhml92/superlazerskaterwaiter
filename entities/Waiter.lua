@@ -20,10 +20,14 @@ function Waiter:initialize(x, y, scene)
    self.maxSpeed = 200
    self.acc = 3
 
+
+
 	self.isApplyingForce = false
    self.mouse = {}
    self.mouse.x = 0
    self.mouse.y = 0
+   
+   self.lookDir = 0
    
    self.img = {}
    self.img.shadow    = Resources.static:getImage("shadow.png")
@@ -33,6 +37,7 @@ function Waiter:initialize(x, y, scene)
    self.body      = lp.newBody(self.scene.world, x, y, "dynamic")
 	self.shape     = lp.newCircleShape(self.radius)
 	self.fixture   = lp.newFixture(self.body, self.shape)
+   self.fixture:setUserData(self)
 	self.fixture:setRestitution(self.restitution)
    self.body:setLinearDamping(self.linearDamping)
 
@@ -66,7 +71,17 @@ function Waiter:update(dt)
          self.body:setLinearVelocity(vx*self.maxSpeed,vy*self.maxSpeed)
       end
 
+
+
    end
+      --if self.isShooting then
+         local sx,sy,sr = self:getTranslation()
+         local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
+         sx,sy = sx-mx,sy-my
+         self.lookDir = vector.angleTo(sx,sy)- math.pi/2
+      --else
+         --self.lookDir = vector.angleTo(self.body:getLinearVelocity())+math.pi/2
+      --end
 
    self.legs:update(dt)
    self.platestack:update(dt)
@@ -86,7 +101,7 @@ function Waiter:draw()
 	local frame = math.min(7, math.floor(self.step))
 	local x, y, r = self:getTranslation()
    love.graphics.draw(self.img.shadow,x,y,0,1.3,1.3,16,16)
-	love.graphics.draw(imgSrc, quad[frame], x, y, r, 1, 1, 35, 30)
+	love.graphics.draw(imgSrc, quad[frame], x, y, self.lookDir, 1, 1, 35, 30)
 	self.platestack:draw()
 end
 

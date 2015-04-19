@@ -6,7 +6,10 @@ Scene       = require 'Scene'
 Entity      = require 'Entity' 
 Resources   = require 'Resources'
 vector      = require 'hump/vector-light'
-Timer		= require "hump/timer"
+Timer		   = require "hump/timer"
+
+Collision   = require 'Collision'
+
 
 SquareSize = 32
 --Scenes
@@ -61,6 +64,17 @@ end
 
 function beginContact(a,b,coll)
    self.scene:beginContact(a,b,coll)
+   local av = a:getUserData()
+   local bv = b:getUserData()
+   
+   if av ~= nil then
+      print(av.class.name)
+   end
+   if bv ~= nil then
+      print(bv.class.name)
+   end
+
+
 end
 
 function endContact(a,b,coll)
