@@ -37,7 +37,7 @@ end
 function Diner:keypressed(key, isrepeat)
 	if key == "s" then
 		self.test = self:addEntity(Customer:new(0, 0, self))
-		self.test:navigate(2, 10, 8, 3)
+		self.test:navigate(8, 3)
 	end
 	Scene.keypressed(self, key, isrepeat)
 end
