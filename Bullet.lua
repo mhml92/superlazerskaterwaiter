@@ -48,6 +48,12 @@ function Bullet:draw()
 end
 
 function Bullet:exit()
+   -- play sound
+   local num = love.math.random(1,5)   
+   local sound = "plates/plates"..num..".mp3"
+   local sndSrc = Resources.static:getSound(sound)
+   sndSrc:setVolume(0.5)
+   sndSrc:play()
    self.alive = false
 
 end
