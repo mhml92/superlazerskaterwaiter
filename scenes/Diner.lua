@@ -4,6 +4,7 @@ local Waiter   = require "entities/Waiter"
 local Level    = require "entities/Level"
 local CameraManager = require "CameraManager"
 local Customer = require "entities/Customer"
+local SpeechBubble = require "SpeechBubble" 
 
 local METER = SquareSize
 
@@ -16,6 +17,8 @@ function Diner:initialize()
    self.cammgr = CameraManager:new(self)
 
    self.waiter = self:addEntity(Waiter:new(400, 100, self))
+
+   self.test = 200
 end
 
 function Diner:update(dt)
@@ -38,6 +41,12 @@ function Diner:keypressed(key, isrepeat)
 	if key == "s" then
 		self.test = self:addEntity(Customer:new(0, 0, self))
 		self.test:navigate(8, 3)
+	elseif key == "t" then
+		local t = self:addEntity(SpeechBubble:new(self.test, 200, self))
+		self.test = self.test + 40
+		local f = love.math.random(1,3)
+		t:requestFood(f)
+		t:spawn()
 	end
 	Scene.keypressed(self, key, isrepeat)
 end
