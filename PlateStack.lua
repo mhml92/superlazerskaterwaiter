@@ -37,6 +37,7 @@ end
 
 function PlateStack:update(dt)
 	local x, y, r = self.parent:getTranslation()
+   r = self.parent.lookDir
 	local cx, cy = self:offset(0, 20, r)
 
 	if #self.stack > 0 then

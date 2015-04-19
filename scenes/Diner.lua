@@ -14,6 +14,9 @@ function Diner:initialize()
    
    love.physics.setMeter(METER)
    self.world = love.physics.newWorld(0,0, true)
+   self.world:setCallbacks(beginContact, endContact, preSolve, postSolve)
+
+
    self.level = Level:new(0,0,"level0.lvl",self)
    self.cammgr = CameraManager:new(self)
 
@@ -53,5 +56,18 @@ function Diner:keypressed(key, isrepeat)
 	end
 	Scene.keypressed(self, key, isrepeat)
 end
+
+function Diner:beginContact(a,b,coll)
+end
+
+function Diner:endContact(a,b,coll)
+end
+
+function Diner:preSolve(a,b,coll)
+end
+
+function Diner:postSolve(...)
+end
+
 
 return Diner

@@ -1,4 +1,5 @@
 local Level = class("Level")
+local Bound = require 'Floor' 
 local lg = love.graphics
 local lp = love.physics
 
@@ -30,8 +31,10 @@ function Level:initialize(x, y,levelName, scene)
    self.height = 0
    self.numTilesWidth = 0
    self.numTilesHeight = 0
-   self.tables = {}
    self.scene = scene
+   self.tables = {}
+   self.bounds = {}
+   --[[
    self.walls = {}
    self.floor = {}
    self.counter = {}
@@ -40,6 +43,7 @@ function Level:initialize(x, y,levelName, scene)
    self.counterZone = {}
    self.leftdoor = {}
    self.rightdoor = {}
+   ]]
    self:loadLevelFile(levelName)
 end
 function Level:loadLevelFile(levelName)
@@ -61,70 +65,13 @@ function Level:loadLevelFile(levelName)
                t.body = lp.newBody(self.scene.world,dx+halfSquare,dy+halfSquare,"static")
                t.shape = lp.newRectangleShape(SquareSize,SquareSize)
                t.fixture = lp.newFixture(t.body,t.shape)
+               tmp = {}
+               tmp.class = {}
+               tmp.class.name = "Table"
+               t.fixture:setUserData(tmp)
                table.insert(self.tables,t)
             end
-            --[[
-            if token == "0" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.floor,t)
-            end
             
-            if token == "1" then
-               local t = {}
-               t.body = lp.newBody(self.scene.world,dx+halfSquare,dy+halfSquare,"static")
-               t.shape = lp.newRectangleShape(SquareSize,SquareSize)
-               t.fixture = lp.newFixture(t.body,t.shape)
-               table.insert(self.tables,t)
-            end
-
-            if token == "2" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.counter,t)
-            end
-
-            if token == "3" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.plateDeliveryZone,t)
-               
-            end
-
-            if token == "4" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.plateRecieverZoner,t)
-               
-            end
-
-            
-            if token == "5" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.counterZone,t)
-               
-            end
-
-            if token == "6" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.walls,t)
-            end
-            
-            if token == "7" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.leftdoor,t)
-               
-            end
-            if token == "8" then
-               local t = {}
-               t.x,t.y = dx,dy
-               table.insert(self.rightdoor,t)
-               
-            end
-            ]]
             x = x + 1
          end
          y = y + 1
@@ -133,9 +80,18 @@ function Level:loadLevelFile(levelName)
       self.numTilesHeight = y
       self.width = (x) * SquareSize
       self.height = (y) * SquareSize
+      
+      table.insert(self.bounds,Bound:new(SquareSize,SquareSize,self.width-(2*SquareSize),1,self.scene))
+      table.insert(self.bounds,Bound:new(SquareSize,SquareSize,1,self.height-(2*SquareSize),self.scene))
+      
+      table.insert(self.bounds,Bound:new(SquareSize,self.height-SquareSize,self.width-(2*SquareSize),1,self.scene))
+      table.insert(self.bounds,Bound:new(self.width-SquareSize,SquareSize,1,self.height-(2*SquareSize),self.scene))
+
    else
       print("No such level " .. path)
    end
+   
+   
 
 end
 
@@ -201,6 +157,12 @@ function Level:draw()
          end
       end
    end
+   --[[
+   --DEBUG 
+   for k,v in ipairs(self.bounds) do
+      v:draw()
+   end
+     ]]
    --[[
    for k,t in ipairs(self.tables) do
       lg.setColor(255,0,0)
