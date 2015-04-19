@@ -38,7 +38,7 @@ function Customer:initialize(x, y, scene, person)
 
 	self.lastx = self.x
 	self.lasty = self.y
-	self.angle = math.random()*2*math.pi
+	self.angle = math.pi --math.random()*2*math.pi
 
    local phys = love.physics
 	self.body = phys.newBody(self.scene.world, x, y, "kinematic")
@@ -102,20 +102,22 @@ function Customer:update(dt)
 						end
 					end
 				end
-			end
+         end
 			if besti == -1 then
 				return
 			end
+         self.angle = math.atan2((besti-ci),bestj-cj)+ math.pi/2
 			self:walk(32*bestj, 32*besti)
 		else
 			self:arrived()
 		end
    end
-   local ox,oy = self.body:getX(),self.body:getY()
+   --local ox,oy = self.body:getX(),self.body:getY()
    self.body:setX(self.x-16)
    self.body:setY(self.y-16)
-   
-   self.angle = vector.angleTo(self.body:getX()-ox,self.body:getY()-oy) + math.pi/2
+   --if ox-(self.x-16) =~ 0 and oy-(self.y-16) =~0 then 
+   --   self.angle = vector.angleTo(self.body:getX()-ox,self.body:getY()-oy) + math.pi/2
+   --end
 end
 
 function Customer:arrived()
