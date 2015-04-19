@@ -6,7 +6,10 @@ Scene       = require 'Scene'
 Entity      = require 'Entity' 
 Resources   = require 'Resources'
 vector      = require 'hump/vector-light'
-Timer		= require "hump/timer"
+Timer		   = require "hump/timer"
+
+Collision   = require 'Collision'
+
 
 SquareSize = 32
 --Scenes
@@ -64,12 +67,11 @@ function beginContact(a,b,coll)
    local av = a:getUserData()
    local bv = b:getUserData()
    
-   if av ~= nil and av.class.name == "Bullet" then
-      av.alive = false
+   if av ~= nil then
+      print(av.class.name)
    end
-   if bv ~= nil and bv.class.name == "Bullet" then
-      bv.alive = false
-
+   if bv ~= nil then
+      print(bv.class.name)
    end
 
 

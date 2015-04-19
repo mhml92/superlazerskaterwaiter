@@ -65,7 +65,10 @@ function Level:loadLevelFile(levelName)
                t.body = lp.newBody(self.scene.world,dx+halfSquare,dy+halfSquare,"static")
                t.shape = lp.newRectangleShape(SquareSize,SquareSize)
                t.fixture = lp.newFixture(t.body,t.shape)
-               t.fixture:setUserData(self)
+               tmp = {}
+               tmp.class = {}
+               tmp.class.name = "Table"
+               t.fixture:setUserData(tmp)
                table.insert(self.tables,t)
             end
             

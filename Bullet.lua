@@ -10,6 +10,7 @@ end
 
 function Bullet:initialize(parent)
    local px,py,pr = parent:getTranslation()
+   pr = parent.lookDir
    local cx,cy = self:offset(15,-17,pr)
 	Entity.initialize(self, cx+px, cy+py, parent.scene)
    self.dir = pr - math.pi/2

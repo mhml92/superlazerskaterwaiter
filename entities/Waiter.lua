@@ -17,7 +17,7 @@ function Waiter:initialize(x, y, scene)
    self.radius = 9
    self.restitution = 0.4
    self.linearDamping = 0.1
-   self.maxSpeed = 300
+   self.maxSpeed = 200
    self.acc = 3
 
 
@@ -74,15 +74,14 @@ function Waiter:update(dt)
 
 
    end
-      if self.isShooting then
+      --if self.isShooting then
          local sx,sy,sr = self:getTranslation()
          local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
          sx,sy = sx-mx,sy-my
-         self.lookDir = vector.angleTo(sx,sy)
-         print(self.lookDir)
-      else
-         self.lookDir = vector.angleTo(self.body:getLinearVelocity())+math.pi/2
-      end
+         self.lookDir = vector.angleTo(sx,sy)- math.pi/2
+      --else
+         --self.lookDir = vector.angleTo(self.body:getLinearVelocity())+math.pi/2
+      --end
 
    self.legs:update(dt)
    self.platestack:update(dt)
