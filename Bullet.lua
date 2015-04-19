@@ -21,6 +21,7 @@ function Bullet:initialize(parent)
    self.body      = lp.newBody(self.scene.world, self.x, self.y, "dynamic")
 	self.shape     = lp.newCircleShape(self.radius)
 	self.fixture   = lp.newFixture(self.body, self.shape)
+   self.fixture:setUserData(self)
 
    self.body:setBullet(true)
    self.fixture:setSensor(true)

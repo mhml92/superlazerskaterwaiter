@@ -61,6 +61,18 @@ end
 
 function beginContact(a,b,coll)
    self.scene:beginContact(a,b,coll)
+   local av = a:getUserData()
+   local bv = b:getUserData()
+   
+   if av ~= nil and av.class.name == "Bullet" then
+      av.alive = false
+   end
+   if bv ~= nil and bv.class.name == "Bullet" then
+      bv.alive = false
+
+   end
+
+
 end
 
 function endContact(a,b,coll)
