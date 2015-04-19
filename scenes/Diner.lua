@@ -49,7 +49,7 @@ end
 function Diner:keypressed(key, isrepeat)
 	if key == "s" then
 		self.test = self:addEntity(Customer:new(0, 0, self))
-		self.test:navigate(8, 3)
+		self.test:navigate(6, 3)
 	elseif key == "t" then
 		local t = self:addEntity(SpeechBubble:new(self.test, 200, self))
 		self.test = self.test + 40
