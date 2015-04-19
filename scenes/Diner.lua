@@ -7,6 +7,7 @@ local Customer = require "entities/Customer"
 local SpeechBubble = require "SpeechBubble" 
 local Collision   = require 'Collision'
 local PlateDispensor = require "PlateDispensor"
+local Director = require "Director"
 
 local METER = SquareSize
 
@@ -25,6 +26,8 @@ function Diner:initialize()
    self.waiter = self:addEntity(Waiter:new(400, 100, self))
 
    self.plateDispensor = self:addEntity(PlateDispensor:new(300, 300, self))
+
+   self.director = self:addEntity(Director:new(0,0,self))
 
    self.test = 200
 end
@@ -49,7 +52,7 @@ end
 function Diner:keypressed(key, isrepeat)
 	if key == "s" then
 		self.test = self:addEntity(Customer:new(0, 0, self))
-		self.test:navigate(8, 3)
+		self.test:navigate(6, 3)
 	elseif key == "t" then
 		local t = self:addEntity(SpeechBubble:new(self.test, 200, self))
 		self.test = self.test + 40

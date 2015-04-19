@@ -22,7 +22,7 @@ function SpeechBubble:draw()
 	local s = self.scale
 	love.graphics.draw(imgSrc, self.x, self.y, 0, s, s)
 	if self.food then
-		love.graphics.draw(foodSrc, foodQuad[self.food], self.x+8, self.y+5, 0, s, s)
+		love.graphics.draw(foodSrc, foodQuad[self.food], self.x+8, self.y+10, 0, s, s)
 	end
 end
 

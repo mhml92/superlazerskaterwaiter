@@ -2,6 +2,7 @@ local Bullet = class("Bullet", Entity)
 
 local lp = love.physics
 local imgSrc = Resources.static:getImage("dirty_plates.png")
+local piecesSrc = Resources.static:getImage("broken_plate.png")
 local plates = {}
 for i = 1,3 do
    plates[i] = love.graphics.newQuad((i-1)*16,0,16,16,48,16)
@@ -55,7 +56,7 @@ function Bullet:exit()
    sndSrc:setVolume(0.5)
    sndSrc:play()
    self.alive = false
-
+	
 end
 
 

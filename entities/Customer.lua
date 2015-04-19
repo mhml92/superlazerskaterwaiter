@@ -1,5 +1,7 @@
 local Customer = class("Customer", Entity)
 
+local SpeechBubble = require "SpeechBubble"
+
 local imgSrc = Resources.static:getImage("persons.png")
 local quads = {}
 for i=0,8 do
@@ -17,7 +19,7 @@ local FROMTOILET = 7
 local HAPPY = 0
 local ANGRY = 1
 
-function Customer:initialize(x, y, scene)
+function Customer:initialize(x, y, scene, person)
 	Entity.initialize(self, x, y, scene)
 
 
@@ -32,7 +34,7 @@ function Customer:initialize(x, y, scene)
 	self.w = self.scene.level.numTilesWidth
 	self.h = self.scene.level.numTilesHeight
 
-	self.quad = quads[8]
+	self.quad = quads[person]
 
 	self.lastx = self.x
 	self.lasty = self.y
@@ -54,6 +56,10 @@ function Customer:initialize(x, y, scene)
 	self.y = -100
 
 	self:walk(self.tx, self.ty)
+
+	self.sitting = false
+
+	self.bubble = nil
 end
 
 function Customer:navigate(i, j)
@@ -72,6 +78,7 @@ function Customer:walk(tx, ty)
 end
 
 function Customer:update(dt)
+	if self.sitting then return end
 	if self.walking == false then
 		local ci, cj = math.floor((self.y+16)/32), math.floor((self.x+16)/32)
 		if ci ~= self.ti or cj ~= self.tj then
@@ -83,7 +90,8 @@ function Customer:update(dt)
 					if (ii==0 or jj==0) and ii~=jj then
 						local cr, cc = ci+ii, cj+jj
 						if cr >= 1 and cr <= 15 and cc >= 1 and cc <= 18 then
-							if self.grid[cr][cc] == "0" then
+							local token = self.grid[cr][cc]
+							if token == "0" or token == "16" then
 								local dist = (self.ti-cr)^2 + (self.tj-cc)^2
 								if dist < bestScore then
 									bestScore = dist
@@ -99,10 +107,19 @@ function Customer:update(dt)
 				return
 			end
 			self:walk(32*bestj, 32*besti)
+		else
+			self:arrived()
 		end
 	end
    self.body:setX(self.x-32)
    self.body:setY(self.y-32)
+end
+
+function Customer:arrived()
+	self.sitting = true
+	self.bubble = self.scene:addEntity(SpeechBubble:new(self.x-32, self.y, self.scene))
+	self.bubble:requestFood(2)
+	self.bubble:spawn()
 end
 
 function Customer:draw()
