@@ -20,6 +20,10 @@ local ANGRY = 1
 function Customer:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
 
+
+   self.width = 20
+   self.height = 20
+   self.radius = 10
 	self.state = ENTERING
 	self.mood = HAPPY
 
@@ -33,6 +37,14 @@ function Customer:initialize(x, y, scene)
 	self.lastx = self.x
 	self.lasty = self.y
 	self.angle = 0
+
+   local phys = love.physics
+	self.body = phys.newBody(self.scene.world, x+(self.width/2), y+(self.height/2), "kinematic")
+	self.shape = phys.newCircleShape(self.radius)
+	self.fixture = phys.newFixture(self.body, self.shape)
+   self.fixture:setUserData(self)
+   self.fixture:setSensor(true)
+
 
 	self.ti = 1
 	self.tj = 12
@@ -89,10 +101,17 @@ function Customer:update(dt)
 			self:walk(32*bestj, 32*besti)
 		end
 	end
+   self.body:setX(self.x-32)
+   self.body:setY(self.y-32)
 end
 
 function Customer:draw()
 	love.graphics.draw(imgSrc, self.quad, self.x-32, self.y-32, self.angle)
 end
+
+function Customer:exit()
+   self:kill()
+end
+
 
 return Customer

@@ -46,6 +46,9 @@ function Entity:applyForce(x,y)
    print("implement applyForce")
 end
 
+function Entity:exit()
+
+end
 
 
 return Entity

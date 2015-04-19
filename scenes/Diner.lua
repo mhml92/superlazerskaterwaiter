@@ -5,6 +5,8 @@ local Level    = require "entities/Level"
 local CameraManager = require "CameraManager"
 local Customer = require "entities/Customer"
 local SpeechBubble = require "SpeechBubble" 
+local Collision   = require 'Collision'
+local PlateDispensor = require "PlateDispensor"
 
 local METER = SquareSize
 
@@ -15,11 +17,14 @@ function Diner:initialize()
    self.world = love.physics.newWorld(0,0, true)
    self.world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
+   self.collision = Collision:new(self)
 
    self.level = Level:new(0,0,"level0.lvl",self)
    self.cammgr = CameraManager:new(self)
 
    self.waiter = self:addEntity(Waiter:new(400, 100, self))
+
+   self.plateDispensor = self:addEntity(PlateDispensor:new(300, 300, self))
 
    self.test = 200
 end
@@ -30,6 +35,7 @@ function Diner:update(dt)
    --self.cammgr:update(self.level.width/2,self.level.height/2)
    self.cammgr:update(self.waiter.x,self.waiter.y)
 	self.world:update(dt)
+   self.level:update(dt)
 	Scene.update(self, dt)
 end
 
@@ -55,6 +61,7 @@ function Diner:keypressed(key, isrepeat)
 end
 
 function Diner:beginContact(a,b,coll)
+   self.collision:resolve(a,b,coll)
 end
 
 function Diner:endContact(a,b,coll)
