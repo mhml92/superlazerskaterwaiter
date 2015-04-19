@@ -147,7 +147,7 @@ function Waiter:applyForce(x,y)
 end
 
 function Waiter:hasDish(i)
-   for k,v in ipars(self.dishes) do
+   for k,v in ipairs(self.dishes) do
       if v == i then
          return true
       end
@@ -157,7 +157,7 @@ function Waiter:hasDish(i)
 end
 
 function Waiter:getDish(i)
-   for k,v in ipars(self.dishes) do
+   for k,v in ipairs(self.dishes) do
       if v == i then
          self.dishes[k] = 0
          return v
