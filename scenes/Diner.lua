@@ -35,6 +35,7 @@ function Diner:update(dt)
    --self.cammgr:update(self.level.width/2,self.level.height/2)
    self.cammgr:update(self.waiter.x,self.waiter.y)
 	self.world:update(dt)
+   self.level:update(dt)
 	Scene.update(self, dt)
 end
 

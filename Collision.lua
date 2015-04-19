@@ -26,31 +26,30 @@ end
 function Collision:handleCollision(a,b,coll)
    local at = a.class.name
    local bt = b.class.name
-   print(name,name)
 
-   -- BULLET
-   if at == "Bullet" then
+   if a:isAlive() and b:isAlive() then
+      -- BULLET
+      if at == "Bullet" then
 
-      if bt == "Bullet" then
-         
-      elseif bt == "Table" then
-         a:exit()
-      elseif bt == "Bound" then
-         a:exit()
-      elseif bt == "Customer" then
-         a:exit()
+         if bt == "Bullet" then
+
+         elseif bt == "Table" then
+            a:exit()
+         elseif bt == "Bound" then
+            a:exit()
+         elseif bt == "Customer" then
+            a:exit()
+         end
+         -- TABLE
+      elseif at == "Table" then
+         -- BOUND
+      elseif at == "Bound" then
+         -- CUSTOMER
+      elseif at == "Customer" then
+         if bt == "Bullet" then
+            a:exit()
+         end
       end
-   -- TABLE
-   elseif at == "Table" then
-
-
-   -- BOUND
-   elseif at == "Bound" then
-
-
-   -- CUSTOMER
-   elseif at == "Customer" then
-
    end
 end
 

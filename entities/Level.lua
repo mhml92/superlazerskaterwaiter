@@ -3,10 +3,13 @@ local Bound = require 'Floor'
 local lg = love.graphics
 local lp = love.physics
 
+local Table = require "entities/Table"
+local Chair = require "entities/Chair"
+
 function Level:initialize(x, y,levelName, scene)
    self.img = {}
    self.img.floor = Resources.static:getImage("floor.png")
-   self.img.table = Resources.static:getImage("table.png")
+   --self.img.table = Resources.static:getImage("table.png")
    
    self.img.tlc   = Resources.static:getImage("tlc.png")
    self.img.trc   = Resources.static:getImage("trc.png")
@@ -34,6 +37,7 @@ function Level:initialize(x, y,levelName, scene)
    self.scene = scene
    self.tables = {}
    self.bounds = {}
+   self.chairs = {}
    --[[
    self.walls = {}
    self.floor = {}
@@ -61,15 +65,10 @@ function Level:loadLevelFile(levelName)
             self.matrix[y+1][x+1] = token
             
             if token == "1" then
-               local t = {}
-               t.body = lp.newBody(self.scene.world,dx+halfSquare,dy+halfSquare,"static")
-               t.shape = lp.newRectangleShape(SquareSize,SquareSize)
-               t.fixture = lp.newFixture(t.body,t.shape)
-               tmp = {}
-               tmp.class = {}
-               tmp.class.name = "Table"
-               t.fixture:setUserData(tmp)
-               table.insert(self.tables,t)
+               table.insert(self.tables,Table:new(dx+halfSquare,dy+halfSquare,self.scene))
+            end
+            if token == "16" then
+               table.insert(self.chairs,Chair:new(dx+halfSquare,dy+halfSquare,self.scene))
             end
             
             x = x + 1
@@ -96,6 +95,14 @@ function Level:loadLevelFile(levelName)
 end
 
 
+function Level:update(dt)
+   for k,v in ipairs(self.tables) do
+      v:update(dt)
+   end
+
+end
+
+
 function Level:draw()
    local halfSquare = SquareSize/2
    local lg = love.graphics 
@@ -111,10 +118,12 @@ function Level:draw()
    for i,v in ipairs(self.matrix) do
       for j,w in ipairs(v) do
          local di,dj = i-1,j-1
+         --[[
          if w == "1" then
             lg.draw(img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.3,1.3,16,16)
             lg.draw(img.table,dj*SquareSize,di*SquareSize)
          end
+         ]]
          
          if w == "6" then
             lg.draw(img.tw,dj*SquareSize,di*SquareSize)
@@ -141,10 +150,12 @@ function Level:draw()
          if w == "12" then
             lg.draw(img.brc,dj*SquareSize,di*SquareSize)
          end
+         --[[
          if w == "16" then
             lg.draw(img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.2,1.2,16,16)
             lg.draw(img.chair,dj*SquareSize,di*SquareSize)
          end
+         ]]
          
          if w == "41" then
             lg.draw(img.prz1,dj*SquareSize,di*SquareSize)
@@ -157,6 +168,14 @@ function Level:draw()
          end
       end
    end
+   
+   for k,v in ipairs(self.tables) do
+      v:draw()
+   end
+   for k,v in ipairs(self.chairs) do
+      v:draw()
+   end
+
    --[[
    --DEBUG 
    for k,v in ipairs(self.bounds) do
