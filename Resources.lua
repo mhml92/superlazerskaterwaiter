@@ -14,7 +14,7 @@ end
 
 function Resources.static:getSound(filename)
 	if self.sounds[filename] == nil then
-		local path = "sounds/"..filename
+		local path = "sound/"..filename
 		self.sounds[filename] = love.audio.newSource(path)
 	end
 
@@ -22,6 +22,11 @@ function Resources.static:getSound(filename)
 end
 
 function Resources.static:loadAll()
+   self:getSound("plates/plates1.mp3")   
+   self:getSound("plates/plates2.mp3")   
+   self:getSound("plates/plates3.mp3")   
+   self:getSound("plates/plates4.mp3")   
+   self:getSound("plates/plates5.mp3")   
 end
 
 

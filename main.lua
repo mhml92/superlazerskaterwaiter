@@ -27,6 +27,12 @@ function love.load()
    love.graphics.setScissor( 0, 0, w, h)
    Resources.static:loadAll() 
    self.scene = Diner:new()   
+   self.music = Resources.static:getSound("Hyperfun.mp3")
+   self.music:setVolume(0.5)
+   self.music:setLooping(true)
+   self.music:play()
+
+   Resources:loadAll()
 end
 
 function love.update(dt)
