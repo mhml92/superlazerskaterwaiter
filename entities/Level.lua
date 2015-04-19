@@ -24,7 +24,7 @@ function Level:initialize(x, y,levelName, scene)
    self.img.prz1    = Resources.static:getImage("prz1.png")
    self.img.prz2    = Resources.static:getImage("prz2.png")
    self.img.prz3    = Resources.static:getImage("prz3.png")
-   
+
    self.matrix = {}
 
    self.width = 0
@@ -96,58 +96,61 @@ end
 function Level:draw()
    local halfSquare = SquareSize/2
    local lg = love.graphics 
+   
+   local img = self.img
+
    for i,v in ipairs(self.matrix) do
       for j,w in ipairs(v) do
          local di,dj = i-1,j-1
-         lg.draw(self.img.floor,dj*SquareSize,di*SquareSize)
+         lg.draw(img.floor,dj*SquareSize,di*SquareSize)
       end
    end
    for i,v in ipairs(self.matrix) do
       for j,w in ipairs(v) do
          local di,dj = i-1,j-1
          if w == "1" then
-            lg.draw(self.img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.3,1.3,16,16)
-            lg.draw(self.img.table,dj*SquareSize,di*SquareSize)
+            lg.draw(img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.3,1.3,16,16)
+            lg.draw(img.table,dj*SquareSize,di*SquareSize)
          end
          
          if w == "6" then
-            lg.draw(self.img.tw,dj*SquareSize,di*SquareSize)
+            lg.draw(img.tw,dj*SquareSize,di*SquareSize)
          end
          if w == "13" then
-            lg.draw(self.img.rw,dj*SquareSize,di*SquareSize)
+            lg.draw(img.rw,dj*SquareSize,di*SquareSize)
          end
          if w == "14" then
-            lg.draw(self.img.bw,dj*SquareSize,di*SquareSize)
+            lg.draw(img.bw,dj*SquareSize,di*SquareSize)
          end
          if w == "15" then
-            lg.draw(self.img.lw,dj*SquareSize,di*SquareSize)
+            lg.draw(img.lw,dj*SquareSize,di*SquareSize)
          end
          
          if w == "9" then
-            lg.draw(self.img.tlc,dj*SquareSize,di*SquareSize)
+            lg.draw(img.tlc,dj*SquareSize,di*SquareSize)
          end
          if w == "10" then
-            lg.draw(self.img.trc,dj*SquareSize,di*SquareSize)
+            lg.draw(img.trc,dj*SquareSize,di*SquareSize)
          end
          if w == "11" then
-            lg.draw(self.img.blc,dj*SquareSize,di*SquareSize)
+            lg.draw(img.blc,dj*SquareSize,di*SquareSize)
          end
          if w == "12" then
-            lg.draw(self.img.brc,dj*SquareSize,di*SquareSize)
+            lg.draw(img.brc,dj*SquareSize,di*SquareSize)
          end
          if w == "16" then
-            lg.draw(self.img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.2,1.2,16,16)
-            lg.draw(self.img.chair,dj*SquareSize,di*SquareSize)
+            lg.draw(img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.2,1.2,16,16)
+            lg.draw(img.chair,dj*SquareSize,di*SquareSize)
          end
          
          if w == "41" then
-            lg.draw(self.img.prz1,dj*SquareSize,di*SquareSize)
+            lg.draw(img.prz1,dj*SquareSize,di*SquareSize)
          end
          if w == "42" then
-            lg.draw(self.img.prz2,dj*SquareSize,di*SquareSize)
+            lg.draw(img.prz2,dj*SquareSize,di*SquareSize)
          end
          if w == "43" then
-            lg.draw(self.img.prz3,dj*SquareSize,di*SquareSize)
+            lg.draw(img.prz3,dj*SquareSize,di*SquareSize)
          end
       end
    end

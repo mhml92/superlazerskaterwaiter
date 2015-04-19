@@ -109,6 +109,7 @@ end
 function Waiter:mousepressed(x, y, button)
    if button == "l" then
       self.isApplyingForce = true
+	  self.legs.accelerating = true
    end
    if button == "r" then
 	   if self.isShooting == false then
@@ -128,6 +129,7 @@ end
 function Waiter:mousereleased(x, y, button)
    if button == "l" then
       self.isApplyingForce = false
+	  self.legs.accelerating = false
   elseif button == "r" then
 	if self.ready then
 	  self.ready = false	
