@@ -19,7 +19,7 @@ local FROMTOILET = 7
 local HAPPY = 0
 local ANGRY = 1
 
-function Customer:initialize(x, y, scene)
+function Customer:initialize(x, y, scene, person)
 	Entity.initialize(self, x, y, scene)
 
 
@@ -34,7 +34,7 @@ function Customer:initialize(x, y, scene)
 	self.w = self.scene.level.numTilesWidth
 	self.h = self.scene.level.numTilesHeight
 
-	self.quad = quads[8]
+	self.quad = quads[person]
 
 	self.lastx = self.x
 	self.lasty = self.y
