@@ -47,4 +47,10 @@ function Bullet:draw()
 	love.graphics.draw(imgSrc, plates[self.pnum], self.body:getX(), self.body:getY(), self.rot, 1, 1, 8, 8)
 end
 
+function Bullet:exit()
+   self.alive = false
+
+end
+
+
 return Bullet
