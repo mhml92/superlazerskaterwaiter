@@ -33,6 +33,7 @@ end
 
 
 function Table:addPlate()
+end
 
 function Table:draw()
    lg.draw(self.img.shadow,self.x,self.y,0,1.3,1.3,16,16)
