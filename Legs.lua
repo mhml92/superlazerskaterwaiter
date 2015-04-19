@@ -13,7 +13,7 @@ end
 function Legs:update(dt)
 	if self.accelerating == false then
 		local f = math.floor(self.step%18)
-		if f == 0 or f == 10 then return end
+		if f == 0 or f == 9 then return end
 	end
 	local speed = 10
 	self.step = self.step + speed*dt
