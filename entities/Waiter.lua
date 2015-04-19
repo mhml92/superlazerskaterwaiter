@@ -17,7 +17,7 @@ function Waiter:initialize(x, y, scene)
    self.radius = 9
    self.restitution = 0.4
    self.linearDamping = 0.1
-   self.maxSpeed = 300
+   self.maxSpeed = 200
    self.acc = 3
 
 	self.isApplyingForce = false
