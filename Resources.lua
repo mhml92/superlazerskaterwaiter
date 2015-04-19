@@ -27,6 +27,8 @@ function Resources.static:loadAll()
    self:getSound("plates/plates3.mp3")   
    self:getSound("plates/plates4.mp3")   
    self:getSound("plates/plates5.mp3")   
+   self:getSound("plategun/slurp.mp3")   
+   self:getSound("plategun/pop.mp3")   
 end
 
 

@@ -28,7 +28,7 @@ function love.load()
    Resources.static:loadAll() 
    self.scene = Diner:new()   
    self.music = Resources.static:getSound("Hyperfun.mp3")
-   self.music:setVolume(0.5)
+   self.music:setVolume(0.2)
    self.music:setLooping(true)
    self.music:play()
 
