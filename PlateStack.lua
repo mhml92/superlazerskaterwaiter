@@ -7,14 +7,18 @@ function PlateStack:initialize(x, y, parent)
 	self.parent = parent
 
 	self.stack = {}
+	self.pending = {}
 	self.joint = {}
 end
 
-function PlateStack:addPlate()
+function PlateStack:addPlate(kind, px, py)
 	local x, y, r = self.parent:getTranslation()
 	local cx, cy = self:offset(0, 20, r)
-	local newPlate = Plate:new(x+cx,y+ cy, self.scene)
-	table.insert(self.stack, newPlate)
+	local xx = px or cx+x
+	local yy = py or cy+y
+	local newPlate = Plate:new(xx, yy, self.scene)
+
+	table.insert(self.pending, newPlate)
 end
 
 function PlateStack:removePlate()
@@ -35,6 +39,7 @@ function PlateStack:update(dt)
 	local x, y, r = self.parent:getTranslation()
    r = self.parent.lookDir
 	local cx, cy = self:offset(0, 20, r)
+
 	if #self.stack > 0 then
 		local bottom = self.stack[1]
 		bottom.x = cx+x
@@ -49,6 +54,26 @@ function PlateStack:update(dt)
 		current.y = current.y+ddy
 		lx, ly = current.x, current.y
 	end
+	for i=#self.pending, 1, -1 do
+		local tmp = self.pending[i]
+		local tx, ty = cx+x, cy+y
+		local dx, dy = (cx+x-tmp.x), (cy+y-tmp.y)
+		if #self.stack > 0 then
+			local t = self.stack[#self.stack]
+			tx, ty = t.x, t.y
+			dx, dy = (tx-tmp.x), (ty-tmp.y)
+		end
+		local dist = math.sqrt(dx^2+dy^2)
+		if dist <= 5 then
+			tmp.x = tx
+			tmp.y = ty
+			table.insert(self.stack, table.remove(self.pending, i))
+		else
+			local lx, ly = dx/dist, dy/dist
+			tmp.x = tmp.x+5*lx
+			tmp.y = tmp.y+5*ly
+		end
+	end
 end
 
 function PlateStack:draw()
@@ -56,6 +81,9 @@ function PlateStack:draw()
 	for i=1,#self.stack do
 		local intensity = 150-(i/size)*150
 		self.stack[i]:draw(intensity)
+	end
+	for i=1,#self.pending do
+		self.pending[i]:draw(0)
 	end
 end
 

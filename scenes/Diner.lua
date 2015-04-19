@@ -6,6 +6,7 @@ local CameraManager = require "CameraManager"
 local Customer = require "entities/Customer"
 local SpeechBubble = require "SpeechBubble" 
 local Collision   = require 'Collision'
+local PlateDispensor = require "PlateDispensor"
 
 local METER = SquareSize
 
@@ -22,6 +23,8 @@ function Diner:initialize()
    self.cammgr = CameraManager:new(self)
 
    self.waiter = self:addEntity(Waiter:new(400, 100, self))
+
+   self.plateDispensor = self:addEntity(PlateDispensor:new(300, 300, self))
 
    self.test = 200
 end
