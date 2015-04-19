@@ -5,7 +5,6 @@ local Bullet = require "Bullet"
 function PlateGun:initialize(x, y, parent)
 	Entity.initialize(self, 0, 0, parent.scene)
 	self.parent = parent
-   self.lookDir = 0
 
 end
 

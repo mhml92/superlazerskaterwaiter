@@ -20,7 +20,7 @@ function Waiter:initialize(x, y, scene)
    self.maxSpeed = 200
    self.acc = 3
 
-
+   self.dishes = {0,0,0}
 
 	self.isApplyingForce = false
    self.mouse = {}
@@ -142,7 +142,30 @@ end
 
 function Waiter:applyForce(x,y)
    self.body:applyForce(x,y)
+
+
 end
+
+function Waiter:hasDish(i)
+   for k,v in ipars(self.dishes) do
+      if v == i then
+         return true
+      end
+   end
+   return false
+
+end
+
+function Waiter:getDish(i)
+   for k,v in ipars(self.dishes) do
+      if v == i then
+         self.dishes[k] = 0
+         return v
+      end
+   end
+
+end
+
 
 function Waiter:keypressed(key, isrepeat)
 	if key == " " then
