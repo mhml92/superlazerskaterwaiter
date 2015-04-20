@@ -37,11 +37,17 @@ function Collision:handleCollision(a,b,coll)
          self.scene.gris:addBullet(a,coll)
          a:exit()
       end
-      -- TABLE
+   -- TABLE
    elseif at == "Table" then
-      -- BOUND
+   -- WAITER
+   elseif at == "Waiter" then
+      if bt == "Customer" then
+         a.maxSpeed = 50
+      end
+
+   -- BOUND
    elseif at == "Bound" then
-      -- CUSTOMER
+   -- CUSTOMER
    elseif at == "Customer" then
       if bt == "Bullet" then
          local dx,dy = b.body:getLinearVelocity()
