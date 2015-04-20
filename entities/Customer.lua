@@ -127,7 +127,7 @@ function Customer:update(dt)
 
 	if self.sitting then return end
 	if self.walking == false then
-		local ci, cj = math.floor((self.y+16)/32), math.floor((self.x+16)/32)
+		local ci, cj = self:getGridCoord()
 		if ci ~= self.ti or cj ~= self.tj then
 			local bestScore = 1000000
 			local besti = -1
@@ -167,6 +167,11 @@ function Customer:update(dt)
    --end
 end
 
+function Customer:getGridCoord()
+	local ci, cj = math.floor((self.y+16)/32), math.floor((self.x+16)/32)
+	return ci, cj
+end
+
 
 
 function Customer:arrived()
@@ -183,8 +188,17 @@ function Customer:arrived()
 		self.sitting = true
 		
 		if not self.clock then
-			self.clock = self.scene:addEntity(Clock:new(self.x-32, self.y-30, self.scene))
-			self.clock:spawn()
+			local r, c = self:getGridCoord()
+			if r == self.chair.i or c == self.chair.j then
+				self.clock = self.scene:addEntity(Clock:new(self.x-32, self.y-30, self.scene))
+				self.clock:spawn()
+			else
+				self.state = LEAVING
+				self.sitting = false
+				self.walking = false
+				if self.chair then self.chair:leave() end
+				self:navigate(2, 2)
+			end
 		end
 		
 		-- turn the right way
