@@ -28,7 +28,7 @@ function PlateDispensor:update(dt)
 		if self.count > 0 and dist < self.radiusSq then
 			self.waiter.platestack:addPlate(love.math.random(1,3), self.x, self.y)
 			self.count = self.count - 1
-			self.step = 0.2
+			self.step = 0.05
 		end
 	else
 		self.step = self.step - dt
