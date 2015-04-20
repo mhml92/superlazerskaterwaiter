@@ -52,6 +52,11 @@ function Diner:draw()
    self.level:draw()
    self.gris:draw()
 	Scene.draw(self)
+
+
+
+   local mx,my = self.cammgr.cam:worldCoords(love.mouse.getPosition())
+   love.graphics.draw(Resources:getImage("aim.png"),mx,my,0, 1, 1, 16, 16)
    self.cammgr:detach()
 end
 
