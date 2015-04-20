@@ -67,6 +67,7 @@ function Customer:initialize(x, y, scene, person)
 	self:walk(self.tx, self.ty)
 
 	self.sitting = false
+	self.chair = nil
 
 	self.bubble = nil
 end
@@ -76,14 +77,15 @@ function Customer:navigate(i, j)
 	self.tj = j
 end
 
-function Customer:goToChair(i, j)
+function Customer:goToChair(chair)
+	self.chair = chair
 	if self.timerHandle2 then
 		Timer.cancel(self.timerHandle2)
 		self.sitting = false
 	end
 	self.state = GOTO_CHAIR
-	self.ti = i
-	self.tj = j
+	self.ti = chair.i
+	self.tj = chair.j
 end
 
 function Customer:walk(tx, ty)
@@ -116,6 +118,7 @@ function Customer:update(dt)
 		self.state = LEAVING
 		self.sitting = false
 		self.walking = false
+		if self.chair then self.chair:leave() end
 		self:navigate(2, 2)
 	end
 

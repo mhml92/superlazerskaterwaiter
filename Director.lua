@@ -48,7 +48,7 @@ function Director:keypressed(key, isrepeat)
 		local chair = self:getEmptyChair()
 		if chair then
 			-- Found an empty chair
-			customer:goToChair(chair.i, chair.j)
+			customer:goToChair(chair)
 			chair:occupy()
 		end
 	end
