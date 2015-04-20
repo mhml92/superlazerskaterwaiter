@@ -53,6 +53,7 @@ function Level:initialize(x, y,levelName, scene)
    self.rightdoor = {}
    ]]
    self:loadLevelFile(levelName)
+   self:setLinks()
 end
 function Level:loadLevelFile(levelName)
    local path = "levels/"..levelName 
@@ -69,7 +70,7 @@ function Level:loadLevelFile(levelName)
             self.matrix[y+1][x+1] = token
             
             if token == "1" then
-               table.insert(self.tables,Table:new(dx+halfSquare,dy+halfSquare,self.scene))
+               table.insert(self.tables,Table:new(dx+halfSquare,dy+halfSquare,self.scene, y+1, x+1))
             end
             if token == "16" then
                table.insert(self.chairs,Chair:new(dx+halfSquare,dy+halfSquare,self.scene, y+1, x+1))
@@ -215,6 +216,20 @@ function Level:draw()
    end
    ]]
    lg.setColor(255,255,255)
+end
+
+function Level:setLinks()
+	for i = 1,#self.tables do
+		local table = self.tables[i]
+		for j=1, #self.chairs do
+			local chair = self.chairs[j]
+			if math.abs(table.i-chair.i) < 1.5 and math.abs(table.j-chair.j) < 1.5 then
+				chair.table = table
+				table.chair = chair
+				break
+			end
+		end
+	end
 end
 
 function Level:getEmptyTile()
