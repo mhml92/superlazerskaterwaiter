@@ -8,7 +8,7 @@ for i=1,7 do
 	wallQuad[i] = love.graphics.newQuad((i-1)*32, 0, 32, 32, 224, 32)
 end
 
-local floorgriss = Resources.static:getImage("griss_sheet.png")
+local floorgriss = Resources.static:getImage("griss_floor_sheet.png")
 local floorQuad = {}
 for i=1,7 do
 	floorQuad[i] = love.graphics.newQuad((i-1)*32, 0, 32, 32, 224, 32)
