@@ -18,7 +18,6 @@ function Chair:occupy()
 	self.occupied = true
 end
 
-
 function Chair:leave()
 	self.occupied = false
 end
@@ -28,4 +27,5 @@ function Chair:draw()
    lg.draw(self.img.chair,self.x-16,self.y-16)
    --love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
+
 return Chair
