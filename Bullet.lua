@@ -16,7 +16,10 @@ function Bullet:initialize(parent)
 	Entity.initialize(self, cx+px, cy+py, parent.scene)
    self.lvx = 0
    self.lvy = 0
-   self.dir = pr - math.pi/2
+   local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())
+   mx = mx-self.x
+   my = my-self.y
+   self.dir = vector.angleTo(mx,my) 
    self.radius = 8
    self.force = 100
    self.rot = math.random()*2*math.pi

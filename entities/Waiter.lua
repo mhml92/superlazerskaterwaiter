@@ -86,7 +86,7 @@ function Waiter:update(dt)
 	end
    
    if self.maxSpeed < 200 then
-      self.maxSpeed = self.maxSpeed+3 
+      self.maxSpeed = (self.maxSpeed+0.01)*2 
       if self.maxSpeed > 200 then self.maxSpeed = 200 end
    end
 
@@ -105,6 +105,8 @@ function Waiter:update(dt)
       end
       ]]
       self:applyForce(dx,dy) 
+
+   end
       if vector.len(self.body:getLinearVelocity()) > self.maxSpeed then
          local vx,vy = self.body:getLinearVelocity()
          vx,vy = vector.normalize(vx,vy)
@@ -112,8 +114,6 @@ function Waiter:update(dt)
       end
 
 
-
-   end
       --if self.isShooting then
          local sx,sy,sr = self:getTranslation()
          local mx,my = self.scene.cammgr.cam:worldCoords(love.mouse.getPosition())

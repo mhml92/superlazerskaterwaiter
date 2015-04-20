@@ -38,7 +38,7 @@ function CameraManager:update(x,y)
    local dx,dy = x-self.x,y-self.y
    self.x,self.y = self.x + (dx*self.clm),self.y + (dy*self.clm)
 
-   if self.shakeStrength > 0.01 then
+   if self.shakeStrength > 1 then
       local sdir = math.random()*2*math.pi
       self.offX = math.cos(sdir)*self.shakeStrength
       self.offY = math.sin(sdir)*self.shakeStrength
