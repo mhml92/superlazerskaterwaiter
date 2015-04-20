@@ -47,6 +47,10 @@ function Collision:handleCollision(a,b,coll)
 
    -- BOUND
    elseif at == "Bound" then
+      if bt == "Bullet" then
+         self.scene.gris:addWall(a,b,coll)
+      end
+
    -- CUSTOMER
    elseif at == "Customer" then
       if bt == "Bullet" then
