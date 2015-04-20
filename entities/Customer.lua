@@ -5,8 +5,8 @@ local Clock = require "Clock"
 
 local imgSrc = Resources.static:getImage("persons.png")
 local quads = {}
-for i=0,8 do
-	quads[i] = love.graphics.newQuad(i*32, 0, 32, 32, 288, 32)
+for i=0,12 do
+	quads[i] = love.graphics.newQuad(i*32, 0, 32, 32, 416, 32)
 end
 
 local OUTSIDE = -1

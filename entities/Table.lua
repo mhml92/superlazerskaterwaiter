@@ -23,7 +23,7 @@ function Table:initialize(x, y, scene)
    self.ox = love.math.random(0,6)-3
    self.oy = love.math.random(0,6)-3
 
-   self.plate = love.math.random(1,3)
+   self.plate = 0
    self.order = 0
    self.done = true
 end

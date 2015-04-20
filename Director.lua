@@ -16,7 +16,7 @@ function Director:update(dt)
 	self.step = self.step + dt
 	if self.step > 4 then
 		-- add customer to scene
-		local tmp = self.scene:addEntity(Customer:new(0, 0, self.scene, math.random(0,8)))
+		local tmp = self.scene:addEntity(Customer:new(0, 0, self.scene, math.random(0,12)))
 		
 		--[[
 		-- attempt to find empty chair
