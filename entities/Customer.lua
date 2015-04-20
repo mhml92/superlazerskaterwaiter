@@ -229,6 +229,14 @@ function Customer:applyForce(x,y)
    self.body:applyLinearImpulse(x,y)
 end
 
+function Customer:screem()
+   local num = love.math.random(1,11)   
+   local sound = "screem/screem"..num..".mp3"
+   local sndSrc = Resources.static:getSound(sound)
+   sndSrc:setVolume(0.5)
+   sndSrc:play()
+
+end
 
 
 function Customer:draw()

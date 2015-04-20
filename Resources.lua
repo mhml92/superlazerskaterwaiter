@@ -29,6 +29,17 @@ function Resources.static:loadAll()
    self:getSound("plates/plates5.mp3")   
    self:getSound("plategun/slurp.mp3")   
    self:getSound("plategun/pop.mp3")   
+   self:getSound("screem/screem1.mp3")   
+   self:getSound("screem/screem2.mp3")   
+   self:getSound("screem/screem3.mp3")   
+   self:getSound("screem/screem4.mp3")   
+   self:getSound("screem/screem5.mp3")   
+   self:getSound("screem/screem6.mp3")   
+   self:getSound("screem/screem7.mp3")   
+   self:getSound("screem/screem8.mp3")   
+   self:getSound("screem/screem9.mp3")   
+   self:getSound("screem/screem10.mp3")   
+   self:getSound("screem/screem11.mp3")   
 end
 
 
