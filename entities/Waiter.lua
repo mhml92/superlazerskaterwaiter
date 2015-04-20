@@ -10,6 +10,15 @@ local quad = {}
 for i=0,7 do
 	quad[i] = love.graphics.newQuad(i*70, 0, 70, 60, 560, 60)
 end
+local imgFood = Resources.static:getImage("dinner_plates.png")
+local quadFood = {}
+for i=1,3 do
+	quadFood[i] = love.graphics.newQuad((i-1)*16, 0, 16, 16, 48, 16)
+end
+
+local OFFX = {-22, -28, -13}
+local OFFY = {-23, -10, -10}
+
 
 function Waiter:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
@@ -21,6 +30,8 @@ function Waiter:initialize(x, y, scene)
    self.acc = 3
 
    self.dishes = {0,0,0}
+   self.pending = {nil, nil, nil}
+   self.dishCount = 0
 
 	self.isApplyingForce = false
    self.mouse = {}
@@ -47,9 +58,32 @@ function Waiter:initialize(x, y, scene)
    self.step = 0
    self.isShooting = false
    self.ready = false
+
 end
 
 function Waiter:update(dt)
+   local x, y, r = self:getTranslation()
+   r = self.lookDir
+	for i=1, 3 do
+		if self.pending[i] then
+			local cx, cy = self:offset(OFFX[i], OFFY[i], r)
+			local tmp = self.pending[i]
+			local tx, ty = cx+x, cy+y
+			local dx, dy = (cx+x-tmp.x), (cy+y-tmp.y)
+			local dist = math.sqrt(dx^2+dy^2)
+			if dist <= 5 then
+				tmp.x = tx
+				tmp.y = ty
+				self.dishes[i] = tmp.kind
+				self.pending[i]:setActive(false)
+				--self.pending[i] = nil
+			else
+				local lx, ly = dx/dist, dy/dist
+				tmp.x = tmp.x+5*lx
+				tmp.y = tmp.y+5*ly
+			end
+		end
+	end
    
    if self.maxSpeed < 200 then
       self.maxSpeed = (self.maxSpeed+0.01)*2 
@@ -130,7 +164,12 @@ function Waiter:update(dt)
    end
 
 
+end
 
+function Waiter:offset(x, y, r)
+	local cx = x * math.cos(r) - y * math.sin(r)
+	local cy = x * math.sin(r) + y * math.cos(r)
+	return cx, cy
 end
 
 function Waiter:getTranslation()
@@ -148,6 +187,13 @@ function Waiter:draw()
    love.graphics.draw(self.img.shadow,x,y,0,1.3,1.3,16,16)
 	love.graphics.draw(imgSrc, quad[frame], x, y, self.lookDir, 1, 1, 35, 30)
 	self.platestack:draw()
+	for i=1,3 do
+		if self.dishes[i] > 0 then
+			local cx, cy = self:offset(OFFX[i], OFFY[i], self.lookDir)
+			love.graphics.draw(imgFood, quadFood[self.dishes[i]], cx+x-8, cy+y-8)
+			
+		end
+	end
 end
 
 function Waiter:mousepressed(x, y, button)
@@ -172,6 +218,17 @@ function Waiter:applyForce(x,y)
    self.body:applyForce(x,y)
 
 
+end
+
+function Waiter:givePlate(plate)
+	for i=1, 3 do
+		if self.pending[i] == nil then
+			self.pending[i] = plate
+			self.scene:addEntity(plate)
+			self.dishCount = self.dishCount + 1
+			return
+		end
+	end	
 end
 
 function Waiter:hasDish(i)
