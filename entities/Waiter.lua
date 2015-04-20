@@ -111,25 +111,6 @@ function Waiter:mousepressed(x, y, button)
 	  self.legs.accelerating = true
    end
    if button == "r" then
-	   if self.isShooting == false then
-		if self.platestack:removePlate() then
-         
-         -- play sound
-         local sound = "plategun/slurp.mp3"
-         local sndSrc = Resources.static:getSound(sound)
-         sndSrc:setVolume(1)
-         sndSrc:play()
-
-
-			self.isShooting = true
-		  Timer.tween(0.3, self, {step = 8}, "in-linear",
-			 function()
-			  self.step = 7
-			  self.ready = true
-			 end
-			 )
-		 end
-	 end
    end
 end
 
@@ -151,6 +132,25 @@ function Waiter:mousereleased(x, y, button)
         self.scene.cammgr:shake(0.9,2)
         self.step = 0
      end
+	   if self.isShooting == false then
+		if self.platestack:removePlate() then
+         
+         -- play sound
+         local sound = "plategun/slurp.mp3"
+         local sndSrc = Resources.static:getSound(sound)
+         sndSrc:setVolume(1)
+         sndSrc:play()
+
+
+			self.isShooting = true
+		  Timer.tween(0.3, self, {step = 8}, "in-linear",
+			 function()
+			  self.step = 7
+			  self.ready = true
+			 end
+			 )
+		 end
+	 end
   end
 end
 
