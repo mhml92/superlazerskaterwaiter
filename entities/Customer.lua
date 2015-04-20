@@ -31,6 +31,9 @@ function Customer:initialize(x, y, scene, person)
 	self.state = WALK_WAIT
 	self.mood = HAPPY
 	
+	self.scale = 0
+	Timer.tween(0.3, self, {scale = 1}, "out-back")
+	
 	self.clock = nil
 
 	self.walking = true
@@ -215,7 +218,7 @@ end
 
 
 function Customer:draw()
-	love.graphics.draw(imgSrc, self.quad, self.body:getX(), self.body:getY(), self.angle,1,1,16,16)
+	love.graphics.draw(imgSrc, self.quad, self.body:getX(), self.body:getY(), self.angle,self.scale,self.scale,16,16)
    --love.graphics.circle("fill",self.body:getX(),self.body:getY(),10,10)
 end
 
