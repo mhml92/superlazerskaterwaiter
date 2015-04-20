@@ -33,7 +33,9 @@ function Customer:initialize(x, y, scene, person)
 	self.grid = self.scene.level.matrix
 	self.w = self.scene.level.numTilesWidth
 	self.h = self.scene.level.numTilesHeight
-
+   
+   self.wasWalking = true
+   self.timerHandle = nil
 	self.quad = quads[person]
 
 	self.lastx = self.x
@@ -41,10 +43,12 @@ function Customer:initialize(x, y, scene, person)
 	self.angle = math.pi --math.random()*2*math.pi
 
    local phys = love.physics
-	self.body = phys.newBody(self.scene.world, x, y, "kinematic")
+	self.body = phys.newBody(self.scene.world, x, y, "dynamic")
 	self.shape = phys.newCircleShape(self.radius)
 	self.fixture = phys.newFixture(self.body, self.shape)
    self.fixture:setUserData(self)
+   self.body:setBullet(true)
+   self.body:setLinearDamping(0.9)
    self.fixture:setSensor(true)
 
 
@@ -71,13 +75,25 @@ function Customer:walk(tx, ty)
 	self.tx = tx
 	self.ty = ty
 	self.walking = true
-	Timer.tween(0.5, self, {x=tx, y=ty}, "in-linear", function()
+	self.timerHandle = Timer.tween(0.5, self, {x=tx, y=ty}, "in-linear", function()
 			self.walking = false
 		end
 		)
 end
 
 function Customer:update(dt)
+   if not self.fixture:isSensor() then
+      local dx,dy = self.body:getLinearVelocity()
+      if vector.len(dx,dy) < 20 then
+         self.walking = false
+         self.sitting = false
+         self.fixture:setSensor(true)
+         self.x,self.y = self.body:getX()+16,self.body:getY()+16
+      end
+   end
+
+
+
 	if self.sitting then return end
 	if self.walking == false then
 		local ci, cj = math.floor((self.y+16)/32), math.floor((self.x+16)/32)
@@ -120,6 +136,8 @@ function Customer:update(dt)
    --end
 end
 
+
+
 function Customer:arrived()
 	self.sitting = true
 	self.bubble = self.scene:addEntity(SpeechBubble:new(self.x-32, self.y, self.scene))
@@ -127,8 +145,20 @@ function Customer:arrived()
 	self.bubble:spawn()
 end
 
+function Customer:applyForce(x,y)
+   if self.timerHandle then
+      Timer.cancel(self.timerHandle)
+   end
+   self.sitting = true
+   self.fixture:setSensor(false)
+   self.body:applyLinearImpulse(x,y)
+end
+
+
+
 function Customer:draw()
-	love.graphics.draw(imgSrc, self.quad, self.x-16, self.y-16, self.angle,1,1,16,16)
+	love.graphics.draw(imgSrc, self.quad, self.body:getX(), self.body:getY(), self.angle,1,1,16,16)
+   --love.graphics.circle("fill",self.body:getX(),self.body:getY(),10,10)
 end
 
 function Customer:exit()

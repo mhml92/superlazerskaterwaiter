@@ -12,6 +12,10 @@ function Scene:update(dt)
 	end
 	for i=#self.entities, 1, -1 do
 		if self.entities[i]:isAlive() == false then
+         if self.entities[i].body then
+            self.entities[i].body:destroy()
+         end
+
 			table.remove(self.entities, i);
 		end
 	end

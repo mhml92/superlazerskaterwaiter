@@ -49,11 +49,15 @@ function Bullet:draw()
 end
 
 function Bullet:exit()
+   -- screenshake
+   self.scene.cammgr:shake(0.9,2)
+
+
    -- play sound
    local num = love.math.random(1,5)   
    local sound = "plates/plates"..num..".mp3"
    local sndSrc = Resources.static:getSound(sound)
-   sndSrc:setVolume(0.5)
+   sndSrc:setVolume(0.2)
    sndSrc:play()
    self.alive = false
 	
