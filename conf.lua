@@ -2,7 +2,7 @@ function love.conf(t)
    t.identity = nil                   
    t.version = "0.9.1"               
    --t.console = false                
-   t.window.title = "Super Lazer Skater Waiter" 
+   t.window.title = "Super Plater Skater Waiter" 
    t.window.icon = nil                
    t.window.width = 800             
    t.window.height = 600              
