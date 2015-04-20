@@ -15,6 +15,7 @@ local WALK_WAIT = 1
 local EATING = 3
 local LEAVING = 4
 local WAITING = 5
+local OUT = 6
 
 local HAPPY = 0
 local ANGRY = 1
@@ -46,6 +47,8 @@ function Customer:initialize(x, y, scene, person)
    self.timerHandle2 = nil
 	self.quad = quads[person]
 
+	self.level = scene.level
+
 	self.lastx = self.x
 	self.lasty = self.y
 	self.angle = math.pi --math.random()*2*math.pi
@@ -60,8 +63,8 @@ function Customer:initialize(x, y, scene, person)
    self.fixture:setSensor(true)
 
 
-	self.ti = 1
-	self.tj = 12
+	self.ti = self.level.doori
+	self.tj = self.level.doorj
 	self.tx = self.tj*32
 	self.ty = self.ti*32
 	self.x = self.tj*32
@@ -122,7 +125,7 @@ function Customer:update(dt)
 		self.sitting = false
 		self.walking = false
 		if self.chair then self.chair:leave() end
-		self:navigate(2, 2)
+		self:navigate(self.level.doori, self.level.doorj)
 	end
 
 	if self.sitting then return end
@@ -138,7 +141,7 @@ function Customer:update(dt)
 						local cr, cc = ci+ii, cj+jj
 						if cr >= 1 and cr <= 15 and cc >= 1 and cc <= 18 then
 							local token = self.grid[cr][cc]
-							if token == "0" or token == "16" then
+							if token == "0" or token == "16" or token == "7" then
 								local dist = (self.ti-cr)^2 + (self.tj-cc)^2
 								if dist < bestScore then
 									bestScore = dist
@@ -167,12 +170,24 @@ function Customer:update(dt)
    --end
 end
 
+function Customer:leaveDiner()
+	local tx = self.level.doorj*32
+	local ty = -32
+	local dist = math.sqrt((tx-self.x)^2+(ty-self.y)^2)
+	local t = dist/WALKSPEED
+	self.sitting = false
+	self.walking = true
+	Timer.tween(t, self, {y = ty}, "in-linear", function()
+		Timer.tween(0.3, self, {scale = 0}, "in-back", function()
+			self:exit()
+		end)
+	end)
+end
+
 function Customer:getGridCoord()
 	local ci, cj = math.floor((self.y+16)/32), math.floor((self.x+16)/32)
 	return ci, cj
 end
-
-
 
 function Customer:arrived()
 	if self.state == WALK_WAIT then
@@ -197,7 +212,7 @@ function Customer:arrived()
 				self.sitting = false
 				self.walking = false
 				if self.chair then self.chair:leave() end
-				self:navigate(2, 2)
+				self:navigate(self.level.doori, self.level.doorj)
 			end
 		end
 		
@@ -216,7 +231,7 @@ function Customer:arrived()
 		--self.bubble:requestFood(2)
 		--self.bubble:spawn()
 	elseif self.state == LEAVING then
-		self:kill()
+		self:leaveDiner()
 	end
 end
 

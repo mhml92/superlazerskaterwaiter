@@ -38,6 +38,9 @@ function Level:initialize(x, y,levelName, scene)
    self.tables = {}
    self.bounds = {}
    self.chairs = {}
+
+   self.doori = 1
+   self.doorj = 1
    --[[
    self.walls = {}
    self.floor = {}
@@ -70,6 +73,10 @@ function Level:loadLevelFile(levelName)
             if token == "16" then
                table.insert(self.chairs,Chair:new(dx+halfSquare,dy+halfSquare,self.scene, y+1, x+1))
             end
+			if token == "7" then
+				self.doori = y+1
+				self.doorj = x+1
+			end
             
             x = x + 1
          end
