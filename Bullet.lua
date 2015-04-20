@@ -65,7 +65,7 @@ function Bullet:exit()
    local sndSrc = Resources.static:getSound(sound)
    sndSrc:setVolume(0.2)
    sndSrc:play()
-   self.alive = false
+   self:kill()
 
    
 

@@ -51,6 +51,12 @@ end
 
 function Waiter:update(dt)
    
+   if self.maxSpeed < 200 then
+      self.maxSpeed = self.maxSpeed+3 
+      if self.maxSpeed > 200 then self.maxSpeed = 200 end
+   end
+
+
    if self.isApplyingForce then
       --[[ 
       -- Apply force in the direction of the mouse x,y

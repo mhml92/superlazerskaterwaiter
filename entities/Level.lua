@@ -79,12 +79,15 @@ function Level:loadLevelFile(levelName)
       self.numTilesHeight = y
       self.width = (x) * SquareSize
       self.height = (y) * SquareSize
+     
+      local thickness = 500
+      table.insert(self.bounds,Bound:new(0,SquareSize-thickness,self.width,thickness,self.scene))
+      table.insert(self.bounds,Bound:new(SquareSize-thickness,0,thickness,self.height,self.scene))
       
-      table.insert(self.bounds,Bound:new(SquareSize,SquareSize,self.width-(2*SquareSize),1,self.scene))
-      table.insert(self.bounds,Bound:new(SquareSize,SquareSize,1,self.height-(2*SquareSize),self.scene))
-      
-      table.insert(self.bounds,Bound:new(SquareSize,self.height-SquareSize,self.width-(2*SquareSize),1,self.scene))
-      table.insert(self.bounds,Bound:new(self.width-SquareSize,SquareSize,1,self.height-(2*SquareSize),self.scene))
+      table.insert(self.bounds,Bound:new(0,self.height-SquareSize,self.width,thickness,self.scene))
+      table.insert(self.bounds,Bound:new(self.width-SquareSize,0,thickness,self.height,self.scene))
+      --table.insert(self.bounds,Bound:new(0,self.height-SquareSize,self.width-(2*SquareSize),100,self.scene))
+      --table.insert(self.bounds,Bound:new(self.width-SquareSize,SquareSize,1,self.height-(2*SquareSize),self.scene))
 
    else
       print("No such level " .. path)
@@ -175,13 +178,11 @@ function Level:draw()
    for k,v in ipairs(self.chairs) do
       v:draw()
    end
-
    --[[
-   --DEBUG 
    for k,v in ipairs(self.bounds) do
       v:draw()
    end
-     ]]
+   ]]
    --[[
    for k,t in ipairs(self.tables) do
       lg.setColor(255,0,0)
