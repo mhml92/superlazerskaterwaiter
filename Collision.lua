@@ -28,8 +28,8 @@ function Collision:handleCollision(a,b,coll)
       if bt == "Bullet" then
 
       elseif bt == "Table" then
-         self.scene.gris:addBullet(a,coll)
-         a:exit()
+         --self.scene.gris:addBullet(a,coll)
+         --a:exit()
       elseif bt == "Bound" then
          self.scene.gris:addBullet(a,coll)
          a:exit()
@@ -42,7 +42,7 @@ function Collision:handleCollision(a,b,coll)
    -- WAITER
    elseif at == "Waiter" then
       if bt == "Customer" then
-         a.maxSpeed = 50
+         a.maxSpeed = 0
       end
 
    -- BOUND
