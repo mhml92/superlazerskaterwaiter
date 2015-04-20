@@ -16,7 +16,7 @@ function PlateStack:addPlate(kind, px, py)
 	local cx, cy = self:offset(0, 20, r)
 	local xx = px or cx+x
 	local yy = py or cy+y
-	local newPlate = Plate:new(xx, yy, self.scene)
+	local newPlate = Plate:new(xx, yy, self.scene, kind)
 
 	table.insert(self.pending, newPlate)
 end

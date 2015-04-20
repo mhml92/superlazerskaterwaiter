@@ -37,7 +37,7 @@ function Table:update(dt)
    local dx, dy = self.x-x, self.y-y
    if (dx*dx+dy*dy) < 48*48 then
       if self.plate > 0 then
-		self.scene.waiter.platestack:addPlate(self.plate, self.x-8+self.ox, self.y-8+self.oy)
+		self.scene.waiter.platestack:addPlate(self.plate, self.x-8+self.ox, self.y-8+self.oy, self.plate)
 		self.plate = 0
 	  elseif self.scene.waiter:hasDish(self.order) then
          self.plate = self.scene.waiter:getDish(self.order)
