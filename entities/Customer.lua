@@ -48,6 +48,8 @@ function Customer:initialize(x, y, scene, person)
 	self.quad = quads[person]
 
 	self.level = scene.level
+   self.img = {}
+   self.img.shadow    = Resources.static:getImage("shadow.png")
 
 	self.lastx = self.x
 	self.lasty = self.y
@@ -255,6 +257,7 @@ end
 
 
 function Customer:draw()
+   love.graphics.draw(self.img.shadow,self.body:getX(),self.body:getY(),0,1.0,1.0,16,16)
 	love.graphics.draw(imgSrc, self.quad, self.body:getX(), self.body:getY(), self.angle,self.scale,self.scale,16,16)
    --love.graphics.circle("fill",self.body:getX(),self.body:getY(),10,10)
 end
