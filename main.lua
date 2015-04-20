@@ -8,7 +8,7 @@ Resources   = require 'Resources'
 vector      = require 'hump/vector-light'
 Timer		   = require "hump/timer"
 
-
+local TitleScene = require "scenes/TitleScene"
 
 SquareSize = 32
 --Scenes
@@ -26,11 +26,12 @@ function love.load()
    local w,h = love.graphics.getDimensions()
    love.graphics.setScissor( 0, 0, w, h)
    Resources.static:loadAll() 
-   self.scene = Diner:new()   
+   self.scene = TitleScene:new()   
    self.music = Resources.static:getSound("Hyperfun.mp3")
    self.music:setVolume(0.8)
    self.music:setLooping(true)
    self.music:play()
+   self.title = true
 
    Resources:loadAll()
 end
@@ -60,6 +61,11 @@ function love.keyreleased( key, isrepeat )
 end
 
 function love.mousepressed(x,y,button)
+	if self.title then
+		self.title = false
+		self.scene = Diner:new()
+		return
+	end
    self.scene:mousepressed(x,y,button)
 end
 
