@@ -68,7 +68,7 @@ function Level:loadLevelFile(levelName)
                table.insert(self.tables,Table:new(dx+halfSquare,dy+halfSquare,self.scene))
             end
             if token == "16" then
-               table.insert(self.chairs,Chair:new(dx+halfSquare,dy+halfSquare,self.scene))
+               table.insert(self.chairs,Chair:new(dx+halfSquare,dy+halfSquare,self.scene, y+1, x+1))
             end
             
             x = x + 1
@@ -218,4 +218,15 @@ function Level:draw()
    ]]
    lg.setColor(255,255,255)
 end
+
+function Level:getEmptyTile()
+	local i = 1
+	local j = 1
+	while self.matrix[i][j] ~= "0" do
+		i = love.math.random(1, self.numTilesHeight)
+		j = love.math.random(1, self.numTilesWidth)
+	end
+	return i, j
+end
+
 return Level

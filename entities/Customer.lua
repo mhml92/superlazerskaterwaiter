@@ -1,6 +1,7 @@
 local Customer = class("Customer", Entity)
 
 local SpeechBubble = require "SpeechBubble"
+local Clock = require "Clock"
 
 local imgSrc = Resources.static:getImage("persons.png")
 local quads = {}
@@ -8,16 +9,17 @@ for i=0,8 do
 	quads[i] = love.graphics.newQuad(i*32, 0, 32, 32, 288, 32)
 end
 
-local ENTERING = 0
-local ORDERING = 1
+local OUTSIDE = -1
+local GOTO_CHAIR = 0
+local WALK_WAIT = 1
 local EATING = 3
 local LEAVING = 4
-local TOTOILET = 5
-local TOILET = 6
-local FROMTOILET = 7
+local WAITING = 5
 
 local HAPPY = 0
 local ANGRY = 1
+
+local WALKSPEED = 50
 
 function Customer:initialize(x, y, scene, person)
 	Entity.initialize(self, x, y, scene)
@@ -26,8 +28,10 @@ function Customer:initialize(x, y, scene, person)
    self.width = 20
    self.height = 20
    self.radius = 10
-	self.state = ENTERING
+	self.state = WALK_WAIT
 	self.mood = HAPPY
+	
+	self.clock = nil
 
 	self.walking = true
 	self.grid = self.scene.level.matrix
@@ -36,6 +40,7 @@ function Customer:initialize(x, y, scene, person)
    
    self.wasWalking = true
    self.timerHandle = nil
+   self.timerHandle2 = nil
 	self.quad = quads[person]
 
 	self.lastx = self.x
@@ -57,7 +62,7 @@ function Customer:initialize(x, y, scene, person)
 	self.tx = self.tj*32
 	self.ty = self.ti*32
 	self.x = self.tj*32
-	self.y = -100
+	self.y = -32
 
 	self:walk(self.tx, self.ty)
 
@@ -71,11 +76,23 @@ function Customer:navigate(i, j)
 	self.tj = j
 end
 
+function Customer:goToChair(i, j)
+	if self.timerHandle2 then
+		Timer.cancel(self.timerHandle2)
+		self.sitting = false
+	end
+	self.state = GOTO_CHAIR
+	self.ti = i
+	self.tj = j
+end
+
 function Customer:walk(tx, ty)
 	self.tx = tx
 	self.ty = ty
+	local dist = math.sqrt((tx-self.x)^2+(ty-self.y)^2)
+	local t = dist/WALKSPEED
 	self.walking = true
-	self.timerHandle = Timer.tween(0.5, self, {x=tx, y=ty}, "in-linear", function()
+	self.timerHandle = Timer.tween(t, self, {x=tx, y=ty}, "in-linear", function()
 			self.walking = false
 		end
 		)
@@ -92,7 +109,15 @@ function Customer:update(dt)
       end
    end
 
-
+	-- check clock
+	if self.clock and self.clock:isOut() then
+		self.clock:kill()
+		self.clock = nil
+		self.state = LEAVING
+		self.sitting = false
+		self.walking = false
+		self:navigate(2, 2)
+	end
 
 	if self.sitting then return end
 	if self.walking == false then
@@ -139,10 +164,40 @@ end
 
 
 function Customer:arrived()
-	self.sitting = true
-	self.bubble = self.scene:addEntity(SpeechBubble:new(self.x-32, self.y, self.scene))
-	self.bubble:requestFood(2)
-	self.bubble:spawn()
+	if self.state == WALK_WAIT then
+		self.sitting = true
+		local nr, nc = self.scene.level:getEmptyTile()
+		local delay = love.math.random(3,10)
+		self.timerHandle2 = Timer.add(delay, function()
+			self.sitting = false
+			self:navigate(nr, nc)
+		end)
+	elseif self.state == GOTO_CHAIR or self.state == WAITING then
+		self.state = WAITING
+		self.sitting = true
+		
+		if not self.clock then
+			self.clock = self.scene:addEntity(Clock:new(self.x-32, self.y-30, self.scene))
+			self.clock:spawn()
+		end
+		
+		-- turn the right way
+		local ci, cj = math.floor((self.y+16)/32), math.floor((self.x+16)/32)
+		for ii=-1,1 do
+			for jj=-1,1 do
+				if self.grid[ci+ii][cj+jj] == "1" then
+					self.angle = math.atan2((ii),jj)+ math.pi/2
+					return
+				end
+			end
+		end
+		
+		--self.bubble = self.scene:addEntity(SpeechBubble:new(self.x-32, self.y, self.scene))
+		--self.bubble:requestFood(2)
+		--self.bubble:spawn()
+	elseif self.state == LEAVING then
+		self:kill()
+	end
 end
 
 function Customer:applyForce(x,y)
