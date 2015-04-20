@@ -23,6 +23,7 @@ function Level:initialize(x, y,levelName, scene)
    self.img.shadow    = Resources.static:getImage("shadow.png")
 
    self.img.chair    = Resources.static:getImage("chair.png")
+   self.img.bg       = Resources.static:getImage("background.png")
    
    self.img.prz1    = Resources.static:getImage("prz1.png")
    self.img.prz2    = Resources.static:getImage("prz2.png")
@@ -118,7 +119,7 @@ function Level:draw()
    local lg = love.graphics 
    
    local img = self.img
-
+--[[
    for i,v in ipairs(self.matrix) do
       for j,w in ipairs(v) do
          local di,dj = i-1,j-1
@@ -128,12 +129,6 @@ function Level:draw()
    for i,v in ipairs(self.matrix) do
       for j,w in ipairs(v) do
          local di,dj = i-1,j-1
-         --[[
-         if w == "1" then
-            lg.draw(img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.3,1.3,16,16)
-            lg.draw(img.table,dj*SquareSize,di*SquareSize)
-         end
-         ]]
          
          if w == "6" then
             lg.draw(img.tw,dj*SquareSize,di*SquareSize)
@@ -160,12 +155,6 @@ function Level:draw()
          if w == "12" then
             lg.draw(img.brc,dj*SquareSize,di*SquareSize)
          end
-         --[[
-         if w == "16" then
-            lg.draw(img.shadow,dj*SquareSize+16,di*SquareSize+16,0,1.2,1.2,16,16)
-            lg.draw(img.chair,dj*SquareSize,di*SquareSize)
-         end
-         ]]
          
          if w == "41" then
             lg.draw(img.prz1,dj*SquareSize,di*SquareSize)
@@ -178,7 +167,8 @@ function Level:draw()
          end
       end
    end
-   
+   ]]
+   lg.draw(img.bg)
    for k,v in ipairs(self.tables) do
       v:draw()
    end
