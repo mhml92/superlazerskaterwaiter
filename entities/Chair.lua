@@ -12,6 +12,7 @@ function Chair:initialize(x, y, scene, i, j)
    self.occupied = false
    self.i = i
    self.j = j
+   self.table = nil
 end
 
 function Chair:occupy()
@@ -20,6 +21,7 @@ end
 
 function Chair:leave()
 	self.occupied = false
+	self.table.ready = false
 end
 
 function Chair:draw()

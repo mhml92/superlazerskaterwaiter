@@ -209,6 +209,7 @@ function Customer:arrived()
 			if r == self.chair.i or c == self.chair.j then
 				self.clock = self.scene:addEntity(Clock:new(self.x-32, self.y-30, self.scene))
 				self.clock:spawn()
+				self.chair.table.ready = true
 			else
 				self.state = LEAVING
 				self.sitting = false

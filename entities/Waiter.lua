@@ -65,7 +65,7 @@ function Waiter:update(dt)
    local x, y, r = self:getTranslation()
    r = self.lookDir
 	for i=1, 3 do
-		if self.pending[i] then
+		if self.pending[i] and self.pending[i]:isActive() then
 			local cx, cy = self:offset(OFFX[i], OFFY[i], r)
 			local tmp = self.pending[i]
 			local tx, ty = cx+x, cy+y
@@ -231,24 +231,19 @@ function Waiter:givePlate(plate)
 	end	
 end
 
-function Waiter:hasDish(i)
-   for k,v in ipairs(self.dishes) do
-      if v == i then
-         return true
-      end
-   end
-   return false
-
-end
-
-function Waiter:getDish(i)
-   for k,v in ipairs(self.dishes) do
-      if v == i then
-         self.dishes[k] = 0
-         return v
-      end
-   end
-
+function Waiter:placePlate()
+	local tmp = 0
+	for i=1,3 do
+		if self.dishes[i] > 0 then
+			tmp = self.dishes[i]
+			self.dishes[i] = 0
+			self.pending[i]:kill()
+			self.pending[i] = nil
+			self.dishCount = self.dishCount - 1
+			break
+		end
+	end
+	return tmp
 end
 
 
@@ -256,7 +251,8 @@ function Waiter:keypressed(key, isrepeat)
 	if key == " " then
 		self.platestack:addPlate()
 	elseif key == "r" then
-		self.platestack:removePlate()
+		--self.platestack:removePlate()
+		self.dishes[1] = 0
 	end
 end
 

@@ -22,7 +22,6 @@ function FoodDispensor:initialize(x, y, scene)
 	self.slots = {}
 	for i=0,5 do
 		self.slots[i] = love.math.random(1,3)
-		print(self.slots[i])
 	end
 	self.step = 0
 	self.anistep = 0
