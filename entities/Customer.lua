@@ -56,7 +56,7 @@ function Customer:initialize(x, y, scene, person)
 	self.fixture = phys.newFixture(self.body, self.shape)
    self.fixture:setUserData(self)
    self.body:setBullet(true)
-   self.body:setLinearDamping(0.9)
+   self.body:setLinearDamping(0.8)
    self.fixture:setSensor(true)
 
 
@@ -106,7 +106,7 @@ end
 function Customer:update(dt)
    if not self.fixture:isSensor() then
       local dx,dy = self.body:getLinearVelocity()
-      if vector.len(dx,dy) < 20 then
+      if vector.len(dx,dy) < 40 then
          self.walking = false
          self.sitting = false
          self.fixture:setSensor(true)

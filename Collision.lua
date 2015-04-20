@@ -14,10 +14,6 @@ function Collision:resolve(a,b,coll)
       self:handleCollision(av,bv,coll)
       self:handleCollision(bv,av,coll)
    
-   else
-      print("EEEERRRROOOOORRRRR ;_;")
-      print("av",av)
-      print("bv",bv)
    end
 
 end
@@ -32,10 +28,13 @@ function Collision:handleCollision(a,b,coll)
       if bt == "Bullet" then
 
       elseif bt == "Table" then
+         self.scene.gris:addBullet(a,coll)
          a:exit()
       elseif bt == "Bound" then
+         self.scene.gris:addBullet(a,coll)
          a:exit()
       elseif bt == "Customer" then
+         self.scene.gris:addBullet(a,coll)
          a:exit()
       end
       -- TABLE

@@ -8,6 +8,7 @@ local SpeechBubble = require "SpeechBubble"
 local Collision   = require 'Collision'
 local PlateDispensor = require "PlateDispensor"
 local Director = require "Director"
+local GrissSystem = require "GrissSystem"
 
 local METER = SquareSize
 
@@ -29,6 +30,9 @@ function Diner:initialize()
 
    self.director = self:addEntity(Director:new(0,0,self))
 
+   self.gris = GrissSystem:new(self) 
+
+
    self.test = 200
 end
 
@@ -38,6 +42,7 @@ function Diner:update(dt)
    --self.cammgr:update(self.level.width/2,self.level.height/2)
    self.cammgr:update(self.waiter.x,self.waiter.y)
 	self.world:update(dt)
+   self.gris:update(dt)
    self.level:update(dt)
 	Scene.update(self, dt)
 end
@@ -45,6 +50,7 @@ end
 function Diner:draw()
    self.cammgr:attach()
    self.level:draw()
+   self.gris:draw()
 	Scene.draw(self)
    self.cammgr:detach()
 end

@@ -20,4 +20,9 @@ function Plate:draw(intensity)
 	love.graphics.setColor(255, 255, 255, 255)
 end
 
+function Plate:exit()
+   print("pexit")
+end
+
+
 return Plate

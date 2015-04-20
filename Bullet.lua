@@ -14,6 +14,8 @@ function Bullet:initialize(parent)
    pr = parent.lookDir
    local cx,cy = self:offset(15,-17,pr)
 	Entity.initialize(self, cx+px, cy+py, parent.scene)
+   self.lvx = 0
+   self.lvy = 0
    self.dir = pr - math.pi/2
    self.radius = 8
    self.force = 100
@@ -32,6 +34,7 @@ function Bullet:initialize(parent)
 	self.parent = parent
    
    self.pnum = math.floor(math.random()*(3-0.001))+1
+   self.scene = parent.scene
 end
 
 function Bullet:offset(x, y, r)
@@ -42,6 +45,9 @@ end
 
 function Bullet:update(dt)
    self.rot =  self.rot + self.deltaRot*dt
+   self.x = self.body:getX()
+   self.y = self.body:getY()
+   self.lvx,self.lvy = self.body:getLinearVelocity()
 end
 
 function Bullet:draw()
@@ -60,7 +66,9 @@ function Bullet:exit()
    sndSrc:setVolume(0.2)
    sndSrc:play()
    self.alive = false
-	
+
+   
+
 end
 
 
