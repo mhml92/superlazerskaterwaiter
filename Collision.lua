@@ -49,6 +49,7 @@ function Collision:handleCollision(a,b,coll)
          local force = 100
          dx,dy = vector.normalize(dx,dy)
          a:applyForce(dx*force,dy*force)
+         a:screem()
       elseif bt == "Customer" then
 
       end
