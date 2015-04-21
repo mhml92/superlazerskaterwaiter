@@ -123,6 +123,7 @@ function Customer:update(dt)
 		if self.chair.table.plate > 0 then
 			self.state = EATING
 			self:cash()
+			self:addMoney()
 			self.clock:stop()
 			Timer.add(5, function()
 				self.state = LEAVING
@@ -142,8 +143,10 @@ function Customer:update(dt)
 		self.state = LEAVING
 		self.sitting = false
 		self.walking = false
+		self:stormOut()
 		if self.chair then self.chair:leave() end
 		self:navigate(self.level.doori, self.level.doorj)
+		self.chair.table.ready = false
 	end
 
 	if self.sitting then return end
@@ -188,6 +191,11 @@ function Customer:update(dt)
    --end
 end
 
+function Customer:stormOut()
+	self.mood = ANGRY
+	local tmp = self.scene:addEntity(SpeechBubble:new(self.x, self.y, self.scene))
+end
+
 function Customer:leaveDiner()
 	local tx = self.level.doorj*32
 	local ty = -32
@@ -197,6 +205,7 @@ function Customer:leaveDiner()
 	self.walking = true
 	Timer.tween(t, self, {y = ty}, "in-linear", function()
 		Timer.tween(0.3, self, {scale = 0}, "in-back", function()
+			self:damage()
 			self:exit()
 		end)
 	end)

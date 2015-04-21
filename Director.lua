@@ -14,27 +14,27 @@ end
 
 function Director:update(dt)
 	self.step = self.step + dt
-	if self.step > 4 then
+	if self.step > 2 then
 		-- add customer to scene
 		local tmp = self.scene:addEntity(Customer:new(0, 0, self.scene, math.random(0,12)))
 		
-		--[[
 		-- attempt to find empty chair
 		local chair = self:getEmptyChair()
 		if chair then
 			-- Found an empty chair
-			tmp:navigate(chair.i, chair.j)
+			tmp:goToChair(chair)
 			chair:occupy()
 		else		
 			-- get empty tile
 			local r, c = self.level:getEmptyTile()
 			tmp:navigate(r, c)
+			table.insert(self.waiting, tmp)
 		end
-		]]
-		local r, c = self.level:getEmptyTile()
-		tmp:navigate(r, c)
-		table.insert(self.waiting, tmp)
+		--local r, c = self.level:getEmptyTile()
+		--tmp:navigate(r, c)
 		self.step = 0
+	else
+		self:lol()
 	end
 end
 
@@ -42,15 +42,20 @@ function Director:draw()
 
 end
 
+function Director:lol()
+	if #self.waiting == 0 then return end
+	local customer = table.remove(self.waiting, 1)
+	local chair = self:getEmptyChair()
+	if chair then
+		-- Found an empty chair
+		customer:goToChair(chair)
+		chair:occupy()
+	end
+end
+
 function Director:keypressed(key, isrepeat)
 	if key == "q" then
-		local customer = table.remove(self.waiting, 1)
-		local chair = self:getEmptyChair()
-		if chair then
-			-- Found an empty chair
-			customer:goToChair(chair)
-			chair:occupy()
-		end
+		lol()
 	end
 end
 
@@ -58,7 +63,7 @@ function Director:getEmptyChair()
 	local base = love.math.random(1, #self.chairs)
 	for i=base,#self.chairs do
 		local chair = self.chairs[i]
-		if chair.occupied == false then
+		if chair.occupied == false and chair.table.plate == 0 and chair.table.done == false then
 			return chair
 		end
 	end
