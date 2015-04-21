@@ -54,9 +54,6 @@ function Director:lol()
 end
 
 function Director:keypressed(key, isrepeat)
-	if key == "q" then
-		lol()
-	end
 end
 
 function Director:getEmptyChair()

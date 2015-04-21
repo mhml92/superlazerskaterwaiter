@@ -21,7 +21,6 @@ function End:initialize()
 end
 
 function End:draw()
-	love.graphics.draw(imgBg, self.x, self.y, 0,self.zoomFactor,self.zoomFactor,160,120)
    love.graphics.print("Money:", 100,100)
 end
 

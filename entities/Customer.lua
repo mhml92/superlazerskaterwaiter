@@ -250,9 +250,11 @@ function Customer:arrived()
 		local ci, cj = math.floor((self.y+16)/32), math.floor((self.x+16)/32)
 		for ii=-1,1 do
 			for jj=-1,1 do
-				if self.grid[ci+ii][cj+jj] == "1" then
-					self.angle = math.atan2((ii),jj)+ math.pi/2
-					return
+				if (ii == 0 or jj == 0) and ii ~= jj then
+					if self.grid[ci+ii][cj+jj] == "1" then
+						self.angle = math.atan2((ii),jj)+ math.pi/2
+						return
+					end
 				end
 			end
 		end
