@@ -122,7 +122,7 @@ function Customer:update(dt)
    if self.state == WAITING then
 		if self.chair.table.plate > 0 then
 			self.state = EATING
-			-- KACHING!
+			self:cash()
 			self.clock:stop()
 			Timer.add(5, function()
 				self.state = LEAVING
