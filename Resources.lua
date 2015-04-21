@@ -40,6 +40,7 @@ function Resources.static:loadAll()
    self:getSound("screem/screem9.mp3")   
    self:getSound("screem/screem10.mp3")   
    self:getSound("screem/screem11.mp3")   
+   self:getSound("cash.mp3")   
 end
 
 
