@@ -45,6 +45,7 @@ function Table:update(dt)
       if self.plate > 0 and self.done then
 		self.scene.waiter.platestack:addPlate(self.plate, self.x-8+self.ox, self.y-8+self.oy, self.plate)
 		self.plate = 0
+		self.done = false
 	  elseif self.scene.waiter.dishCount > 0 and self.plate == 0 and self.ready then
 		  if self.chair and self.chair.occupied then
 				self.plate = self.scene.waiter:placePlate()
