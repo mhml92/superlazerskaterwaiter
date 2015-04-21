@@ -248,12 +248,6 @@ end
 
 
 function Waiter:keypressed(key, isrepeat)
-	if key == " " then
-		self.platestack:addPlate()
-	elseif key == "r" then
-		--self.platestack:removePlate()
-		self.dishes[1] = 0
-	end
 end
 
 

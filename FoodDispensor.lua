@@ -95,9 +95,6 @@ function FoodDispensor:draw()
 end
 
 function FoodDispensor:keypressed(key, isrepeat)
-	if key == "p" then
-		self:givePlate()
-	end
 end
 
 return FoodDispensor

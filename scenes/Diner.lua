@@ -90,16 +90,6 @@ function Diner:draw()
 end
 
 function Diner:keypressed(key, isrepeat)
-	if key == "s" then
-		self.test = self:addEntity(Customer:new(0, 0, self))
-		self.test:navigate(6, 3)
-	elseif key == "t" then
-		local t = self:addEntity(SpeechBubble:new(self.test, 200, self))
-		self.test = self.test + 40
-		local f = love.math.random(1,3)
-		t:requestFood(f)
-		t:spawn()
-	end
 	Scene.keypressed(self, key, isrepeat)
 end
 

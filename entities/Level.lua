@@ -223,14 +223,12 @@ function Level:setLinks()
 		local table = self.tables[i]
 		for j=1, #self.chairs do
 			local chair = self.chairs[j]
-			if (math.abs(table.i-chair.i) < 1.5 and math.abs(table.j-chair.j) < 1.5) 
-			and (table.i == chair.i or table.j == chair.j)then
+			if (table.i == chair.i or table.j == chair.j) and (math.abs(table.i-chair.i) <= 1 and math.abs(table.j-chair.j) <= 1)then
 				chair.table = table
 				table.chair = chair
 				break
 			end
 		end
-		print("OH SHIT")
 	end
 end
 
