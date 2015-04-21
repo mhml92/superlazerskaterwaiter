@@ -45,6 +45,8 @@ function Waiter:initialize(x, y, scene)
 
    self.legs = Legs:new(self)
 
+
+
    self.body      = lp.newBody(self.scene.world, x, y, "dynamic")
 	self.shape     = lp.newCircleShape(self.radius)
 	self.fixture   = lp.newFixture(self.body, self.shape)
@@ -54,6 +56,9 @@ function Waiter:initialize(x, y, scene)
 
    self.platestack = PlateStack:new(0, 0, self)
    self.plategun = PlateGun:new(0,0,self)
+   for i = 1,20 do
+      self.platestack:addPlate(love.math.random(1,3),self.x,self.y)
+   end
 
    self.step = 0
    self.isShooting = false
