@@ -31,4 +31,21 @@ function End:draw()
    love.graphics.print("Press SPACE to restart Skate Waiter initiative.", 100, 210)
 end
 
+
+function End:keypressed(key, isrepeat)
+end
+
+function End:beginContact(a,b,coll)
+end
+
+function End:endContact(a,b,coll)
+end
+
+function End:preSolve(a,b,coll)
+end
+
+function End:postSolve(...)
+end
+
+
 return End
