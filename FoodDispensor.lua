@@ -2,6 +2,8 @@ local FoodDispensor = class("PlateDispensor", Entity)
 
 local Plate = require "Plate"
 
+local imgHole = Resources:getImage("hole_gradient.png")
+
 local imgConv = Resources:getImage("conveyor_belt.png")
 local quadConv = {}
 for i=0,3 do
@@ -88,6 +90,8 @@ function FoodDispensor:draw()
 			love.graphics.draw(imgPlate, quad[self.slots[i+4]], self.x+(4*32)+8, y+8)
 		end
 	end
+	love.graphics.draw(imgHole, self.x, self.y)
+	love.graphics.draw(imgHole, self.x+128, self.y+96, -math.pi/2)
 end
 
 function FoodDispensor:keypressed(key, isrepeat)

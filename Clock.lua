@@ -25,6 +25,12 @@ function Clock:isOut()
 	return self.clock >= LIMIT
 end
 
+function Clock:stop()
+	Timer.tween(0.3, self, {scale = 0}, "in-back", function()
+		self:kill()
+	end)
+end
+
 function Clock:draw()
 	local frame = math.min(8, math.floor(self.clock/(LIMIT/9)))
    love.graphics.draw(shadow,self.x+8,self.y+8,0,0.7,0.7,16,16)

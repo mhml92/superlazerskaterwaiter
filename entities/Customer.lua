@@ -119,6 +119,22 @@ function Customer:update(dt)
       end
    end
 
+   if self.state == WAITING then
+		if self.chair.table.plate > 0 then
+			self.state = EATING
+			self:cash()
+			self.clock:stop()
+			Timer.add(5, function()
+				self.state = LEAVING
+				self.sitting = false
+				self.walking = false
+				if self.chair then self.chair:leave() end
+				self:navigate(self.level.doori, self.level.doorj)
+				self.chair.table:finishEating()
+			end)
+		end
+   end
+
 	-- check clock
 	if self.clock and self.clock:isOut() then
 		self.clock:kill()
