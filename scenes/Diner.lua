@@ -34,11 +34,37 @@ function Diner:initialize()
 
    self.gris = GrissSystem:new(self) 
 
+   self.playTime = 0
 
+   self.money = 0
+   self.damage = 0
    self.test = 200
 end
 
+function Diner:gameOver()
+   print(fdf)
+end
+
+function Diner:addMoney()
+   self.money = self.money +10
+end
+
+function Diner:damage()
+
+   local sound = "boo.mp3"
+   local sndSrc = Resources.static:getSound(sound)
+   sndSrc:setVolume(0.6)
+   sndSrc:play()
+   self.damage = self.damage +1
+   if self.damage == 5 then
+      endGame()
+   end
+
+end
+
+
 function Diner:update(dt)
+   self.playTime = self.playTime + dt
 	Timer.update(dt)
 
    --self.cammgr:update(self.level.width/2,self.level.height/2)

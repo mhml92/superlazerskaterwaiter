@@ -13,6 +13,7 @@ local TitleScene = require "scenes/TitleScene"
 SquareSize = 32
 --Scenes
 local Diner       = require 'scenes/Diner'
+local End       = require 'scenes/End'
 
 local time = {}
 time.fdt = 1/60 --fixed delta time
@@ -52,6 +53,11 @@ function love.draw()
    self.scene:draw()
    love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10) 
 end 
+
+function endGame()
+   self.scene = End:new()
+end
+
 
 function love.keypressed( key, isrepeat )
    self.scene:keypressed(key,isrepeat)
