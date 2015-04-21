@@ -10,7 +10,7 @@ for i=1,3 do
 	foodQuad[i] = love.graphics.newQuad((i-1)*16, 0, 16, 16, 48, 16)
 end
 
-function Table:initialize(x, y, scene)
+function Table:initialize(x, y, scene, i, j)
 	Entity.initialize(self, x, y, scene)
    self.body = lp.newBody(self.scene.world,x,y,"static")
    self.shape = lp.newRectangleShape(SquareSize,SquareSize)
@@ -25,7 +25,13 @@ function Table:initialize(x, y, scene)
 
    self.plate = 0
    self.order = 0
-   self.done = true
+   self.ready = false
+   self.done = false
+
+   self.i = i
+   self.j = j
+
+   self.chair = nil
 end
 
 function Table:setOrder(i)
@@ -36,11 +42,14 @@ function Table:update(dt)
    local x,y,r = self.scene.waiter:getTranslation()
    local dx, dy = self.x-x, self.y-y
    if (dx*dx+dy*dy) < 48*48 then
-      if self.plate > 0 then
+      if self.plate > 0 and self.done then
 		self.scene.waiter.platestack:addPlate(self.plate, self.x-8+self.ox, self.y-8+self.oy, self.plate)
 		self.plate = 0
-	  elseif self.scene.waiter:hasDish(self.order) then
-         self.plate = self.scene.waiter:getDish(self.order)
+		self.done = false
+	  elseif self.scene.waiter.dishCount > 0 and self.plate == 0 and self.ready then
+		  if self.chair and self.chair.occupied then
+				self.plate = self.scene.waiter:placePlate()
+		  end
       end
    end
 

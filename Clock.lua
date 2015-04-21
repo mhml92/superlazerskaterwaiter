@@ -9,7 +9,7 @@ for i=0,8 do
 	quad[i] = love.graphics.newQuad(i*16, 0, 16, 16, 144, 16)
 end
 
-local LIMIT = 2
+local LIMIT = 10
 
 function Clock:initialize(x, y, scene)
 	Info.initialize(self, x, y, scene)
@@ -23,6 +23,12 @@ end
 
 function Clock:isOut()
 	return self.clock >= LIMIT
+end
+
+function Clock:stop()
+	Timer.tween(0.3, self, {scale = 0}, "in-back", function()
+		self:kill()
+	end)
 end
 
 function Clock:draw()

@@ -7,17 +7,6 @@ function CameraManager:initialize(scene)
    self.scene = scene
    self.cam = humpCamera(0,0)
 
-   --[[
-   -- zoom camera
-   --]]
-   local zoomFactor = 1
-   local w,h = love.graphics.getDimensions()
-   local lvlw,lvlh = self.scene.level.width,self.scene.level.height 
-   if w > h then
-      zoomFactor = h/lvlh
-   else
-      zoomFactor = w/lvlw
-   end
 
    self.cam:zoomTo(2)
    -- shake vars

@@ -8,6 +8,11 @@ for i=1,7 do
 	wallQuad[i] = love.graphics.newQuad((i-1)*32, 0, 32, 32, 224, 32)
 end
 
+local floorgriss = Resources.static:getImage("griss_floor_sheet.png")
+local floorQuad = {}
+for i=1,7 do
+	floorQuad[i] = love.graphics.newQuad((i-1)*32, 0, 32, 32, 224, 32)
+end
 
 function GrissSystem:initialize(scene)
    self.scene = scene
@@ -15,8 +20,20 @@ function GrissSystem:initialize(scene)
 
    self.plates = {}
    self.walls = {}
+   self.floor = {}
 
 end
+
+function GrissSystem:addFloor(customer,bullet,coll)
+   local tmp = {}
+   tmp.x = customer.x
+   tmp.y = customer.y
+   tmp.r = math.random()*2*math.pi
+   tmp.q = floorQuad[love.math.random(1,7)] 
+   table.insert(self.floor,tmp)
+
+end
+
 
 function GrissSystem:addWall(wall,bullet,coll)
    local tmp = {}
@@ -57,15 +74,6 @@ function GrissSystem:addWall(wall,bullet,coll)
 
    tmp.q = wallQuad[love.math.random(1,7)] 
 
-   if orientation == "top" then
-      tmp.r = 0
-   elseif orientation == "bottom" then
-      tmp.r = 0
-   elseif orientation == "left" then
-      tmp.r = 0
-   elseif orientation == "right" then
-      tmp.r = 0
-   end
    table.insert(self.walls,tmp)
 end
 
@@ -113,6 +121,9 @@ end
 
 
 function GrissSystem:draw()
+   for k,v in ipairs(self.floor) do
+	   love.graphics.draw(floorgriss, v.q, v.x, v.y, v.o, 1, 1, 16, 16)
+   end
    for k,v in ipairs(self.walls) do
 	   love.graphics.draw(wallgriss, v.q, v.x, v.y, v.o, 1, 1, 16, 16)
    end

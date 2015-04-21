@@ -112,11 +112,27 @@ function Customer:update(dt)
    if not self.fixture:isSensor() then
       local dx,dy = self.body:getLinearVelocity()
       if vector.len(dx,dy) < 40 then
-         self.walking = false
+         self.walk1 = false
          self.sitting = false
          self.fixture:setSensor(true)
          self.x,self.y = self.body:getX()+16,self.body:getY()+16
       end
+   end
+
+   if self.state == WAITING then
+		if self.chair.table.plate > 0 then
+			self.state = EATING
+			self:cash()
+			self.clock:stop()
+			Timer.add(5, function()
+				self.state = LEAVING
+				self.sitting = false
+				self.walking = false
+				if self.chair then self.chair:leave() end
+				self:navigate(self.level.doori, self.level.doorj)
+				self.chair.table:finishEating()
+			end)
+		end
    end
 
 	-- check clock
@@ -209,6 +225,7 @@ function Customer:arrived()
 			if r == self.chair.i or c == self.chair.j then
 				self.clock = self.scene:addEntity(Clock:new(self.x-32, self.y-30, self.scene))
 				self.clock:spawn()
+				self.chair.table.ready = true
 			else
 				self.state = LEAVING
 				self.sitting = false
@@ -253,6 +270,13 @@ function Customer:screem()
    sndSrc:setVolume(0.5)
    sndSrc:play()
 
+end
+
+function Customer:cash()
+   local sound = "cash.mp3"
+   local sndSrc = Resources.static:getSound(sound)
+   sndSrc:setVolume(1)
+   sndSrc:play()
 end
 
 

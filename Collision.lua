@@ -54,6 +54,7 @@ function Collision:handleCollision(a,b,coll)
    -- CUSTOMER
    elseif at == "Customer" then
       if bt == "Bullet" then
+         self.scene.gris:addFloor(a,b,coll)
          local dx,dy = b.body:getLinearVelocity()
          local force = 100
          dx,dy = vector.normalize(dx,dy)

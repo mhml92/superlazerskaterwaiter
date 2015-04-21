@@ -2,6 +2,8 @@ local FoodDispensor = class("PlateDispensor", Entity)
 
 local Plate = require "Plate"
 
+local imgHole = Resources:getImage("hole_gradient.png")
+
 local imgConv = Resources:getImage("conveyor_belt.png")
 local quadConv = {}
 for i=0,3 do
@@ -22,7 +24,6 @@ function FoodDispensor:initialize(x, y, scene)
 	self.slots = {}
 	for i=0,5 do
 		self.slots[i] = love.math.random(1,3)
-		print(self.slots[i])
 	end
 	self.step = 0
 	self.anistep = 0
@@ -41,6 +42,16 @@ function FoodDispensor:update(dt)
 	if self.anistep >= 4 then
 		self.anistep = 0
 	end
+
+
+   local w = self.scene.waiter
+   local lvl = self.scene.level
+   if w.y > 11*SquareSize and w.x < 6*SquareSize then
+
+		self:givePlate()
+   end
+
+
 end
 
 
@@ -79,6 +90,8 @@ function FoodDispensor:draw()
 			love.graphics.draw(imgPlate, quad[self.slots[i+4]], self.x+(4*32)+8, y+8)
 		end
 	end
+	love.graphics.draw(imgHole, self.x, self.y)
+	love.graphics.draw(imgHole, self.x+128, self.y+96, -math.pi/2)
 end
 
 function FoodDispensor:keypressed(key, isrepeat)
