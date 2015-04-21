@@ -49,7 +49,7 @@ function Diner:addMoney()
    self.money = self.money +10
 end
 
-function Diner:damage()
+function Diner:addDamage()
 
    local sound = "boo.mp3"
    local sndSrc = Resources.static:getSound(sound)

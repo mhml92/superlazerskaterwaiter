@@ -9,7 +9,7 @@ for i=0,8 do
 	quad[i] = love.graphics.newQuad(i*16, 0, 16, 16, 144, 16)
 end
 
-local LIMIT = 10
+local LIMIT = 15
 
 function Clock:initialize(x, y, scene)
 	Info.initialize(self, x, y, scene)
