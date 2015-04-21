@@ -206,7 +206,7 @@ function Customer:leaveDiner()
 	Timer.tween(t, self, {y = ty}, "in-linear", function()
 		Timer.tween(0.3, self, {scale = 0}, "in-back", function()
 			if self.mood == ANGRY then
-				self.scne:damage()
+				self.scene:damage()
 			end
 			self:exit()
 		end)
