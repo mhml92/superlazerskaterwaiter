@@ -112,7 +112,7 @@ function Customer:update(dt)
    if not self.fixture:isSensor() then
       local dx,dy = self.body:getLinearVelocity()
       if vector.len(dx,dy) < 40 then
-         self.walk1 = false
+         self.walking = false
          self.sitting = false
          self.fixture:setSensor(true)
          self.x,self.y = self.body:getX()+16,self.body:getY()+16
@@ -123,7 +123,7 @@ function Customer:update(dt)
 		if self.chair.table.plate > 0 then
 			self.state = EATING
 			self:cash()
-			self:addMoney()
+			self.scene:addMoney()
 			self.clock:stop()
 			Timer.add(5, function()
 				self.state = LEAVING
@@ -205,7 +205,9 @@ function Customer:leaveDiner()
 	self.walking = true
 	Timer.tween(t, self, {y = ty}, "in-linear", function()
 		Timer.tween(0.3, self, {scale = 0}, "in-back", function()
-			self:damage()
+			if self.mood == ANGRY then
+				self.scne:damage()
+			end
 			self:exit()
 		end)
 	end)

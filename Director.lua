@@ -63,8 +63,10 @@ function Director:getEmptyChair()
 	local base = love.math.random(1, #self.chairs)
 	for i=base,#self.chairs do
 		local chair = self.chairs[i]
-		if chair.occupied == false and chair.table.plate == 0 and chair.table.done == false then
-			return chair
+		if chair.occupied == false then
+			if chair.table and chair.table.plate == 0 and chair.table.done == false then
+				return chair
+			end
 		end
 	end
 	for i=1,base-1 do
