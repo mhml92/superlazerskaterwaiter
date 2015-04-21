@@ -1,7 +1,7 @@
 local PlateDispensor = class("PlateDispensor", Entity)
 
-local LIMIT = 15
-local COOLDOWN = 2
+local LIMIT = 30
+local COOLDOWN = 1
 
 function PlateDispensor:initialize(x, y, scene)
 	Entity.initialize(self, x, y, scene)
@@ -37,8 +37,8 @@ function PlateDispensor:update(dt)
 end
 
 function PlateDispensor:draw()
-	love.graphics.circle("line", self.x, self.y, self.radius)
-	love.graphics.print("Count = "..self.count, self.x, self.y+20)
+	--love.graphics.circle("line", self.x, self.y, self.radius)
+	--love.graphics.print("Count = "..self.count, self.x, self.y+20)
 end
 
 return PlateDispensor

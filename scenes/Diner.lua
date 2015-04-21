@@ -27,7 +27,7 @@ function Diner:initialize()
 
    self.waiter = self:addEntity(Waiter:new(400, 100, self))
 
-   self.plateDispensor = self:addEntity(PlateDispensor:new(300, 300, self))
+   self.plateDispensor = self:addEntity(PlateDispensor:new(12*SquareSize, 15*SquareSize, self))
 	self.foodDispensor = self:addEntity(FoodDispensor:new(0, 12*32, self))
 
    self.director = self:addEntity(Director:new(0,0,self))

@@ -12,13 +12,15 @@ function PlateStack:initialize(x, y, parent)
 end
 
 function PlateStack:addPlate(kind, px, py)
-	local x, y, r = self.parent:getTranslation()
-	local cx, cy = self:offset(0, 20, r)
-	local xx = px or cx+x
-	local yy = py or cy+y
-	local newPlate = Plate:new(xx, yy, self.scene, kind, true)
+   if #self.stack < 50 then 
+      local x, y, r = self.parent:getTranslation()
+      local cx, cy = self:offset(0, 20, r)
+      local xx = px or cx+x
+      local yy = py or cy+y
+      local newPlate = Plate:new(xx, yy, self.scene, kind, true)
 
-	table.insert(self.pending, newPlate)
+      table.insert(self.pending, newPlate)
+   end
 end
 
 function PlateStack:removePlate()
