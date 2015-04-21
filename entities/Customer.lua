@@ -112,7 +112,7 @@ function Customer:update(dt)
    if not self.fixture:isSensor() then
       local dx,dy = self.body:getLinearVelocity()
       if vector.len(dx,dy) < 40 then
-         self.walking = false
+         self.walk1 = false
          self.sitting = false
          self.fixture:setSensor(true)
          self.x,self.y = self.body:getX()+16,self.body:getY()+16
@@ -270,6 +270,13 @@ function Customer:screem()
    sndSrc:setVolume(0.5)
    sndSrc:play()
 
+end
+
+function Customer:cash()
+   local sound = "cash.mp3"
+   local sndSrc = Resources.static:getSound(sound)
+   sndSrc:setVolume(1)
+   sndSrc:play()
 end
 
 

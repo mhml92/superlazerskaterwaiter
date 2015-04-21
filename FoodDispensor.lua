@@ -42,6 +42,16 @@ function FoodDispensor:update(dt)
 	if self.anistep >= 4 then
 		self.anistep = 0
 	end
+
+
+   local w = self.scene.waiter
+   local lvl = self.scene.level
+   if w.y > 11*SquareSize and w.x < 6*SquareSize then
+
+		self:givePlate()
+   end
+
+
 end
 
 
