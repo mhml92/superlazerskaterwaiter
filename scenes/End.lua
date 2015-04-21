@@ -25,4 +25,4 @@ function End:draw()
    love.graphics.print("Money:", 100,100)
 end
 
-return TitleScene
+return End
