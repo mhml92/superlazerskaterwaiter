@@ -109,6 +109,10 @@ function Customer:walk(tx, ty)
 end
 
 function Customer:update(dt)
+	if self.bubble then
+		self.bubble.x = self.x-60
+		self.bubble.y = self.y-60
+	end
    if not self.fixture:isSensor() then
       local dx,dy = self.body:getLinearVelocity()
       if vector.len(dx,dy) < 40 then
@@ -193,7 +197,8 @@ end
 
 function Customer:stormOut()
 	self.mood = ANGRY
-	local tmp = self.scene:addEntity(SpeechBubble:new(self.x, self.y, self.scene))
+	self.bubble = self.scene:addEntity(SpeechBubble:new(self.x-32, self.y-60, self.scene))
+	self.bubble:spawn()
 end
 
 function Customer:leaveDiner()
@@ -208,6 +213,7 @@ function Customer:leaveDiner()
 			self.scene:addDamage()
 		end
 		Timer.tween(0.3, self, {scale = 0}, "in-back", function()
+			if self.bubble then self.bubble:kill() end
 			self:exit()
 		end)
 	end)

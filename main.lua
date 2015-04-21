@@ -34,6 +34,7 @@ function love.load()
    self.music:setLooping(true)
    self.music:play()
    self.title = true
+   self.endscreen = false
 
    Resources:loadAll()
 end
@@ -42,9 +43,6 @@ function love.update(dt)
    time.accum = time.accum + dt 
    while time.accum >= time.fdt do
       self.scene:update(time.fdt)
-      if love.keyboard.isDown('escape') then
-         love.event.quit()
-      end
       time.accum = time.accum - time.fdt
    end
 end
@@ -55,11 +53,23 @@ function love.draw()
 end 
 
 function endGame()
-   self.scene = End:new()
+   self.endscreen = true
+   self.scene = End:new(self.diner)
 end
 
 
 function love.keypressed( key, isrepeat )
+	if key == "escape" then
+		if self.title then
+         	love.event.quit()
+		else
+			self.scene = TitleScene:new()
+			self.title = true
+		end
+	elseif self.endscreen and key == " " then
+		self.scene = TitleScene:new()
+		self.title = true
+	end
    self.scene:keypressed(key,isrepeat)
 end
 
@@ -70,7 +80,8 @@ end
 function love.mousepressed(x,y,button)
 	if self.title then
 		self.title = false
-		self.scene = Diner:new()
+		self.diner = Diner:new()
+		self.scene = self.diner
 		return
 	end
    self.scene:mousepressed(x,y,button)
@@ -85,7 +96,7 @@ function beginContact(a,b,coll)
 end
 
 function endContact(a,b,coll)
-   self.scene:endContact(a,b,coll)
+   --self.scene:endContact(a,b,coll)
 end
 
 function preSolve(a,b,coll)
@@ -93,5 +104,5 @@ function preSolve(a,b,coll)
 end
 
 function postSolve(a, b, coll, normalimpulse1, tangentimpulse1, normalimpulse2, tangentimpulse2)
-   self.scene:postSolve(a, b, coll, normalimpulse1, tangentimpulse1, normalimpulse2, tangentimpulse2)
+   --self.scene:postSolve(a, b, coll, normalimpulse1, tangentimpulse1, normalimpulse2, tangentimpulse2)
 end

@@ -18,6 +18,10 @@ function SpeechBubble:requestFood(kind)
 	self.food = kind
 end
 
+function SpeechBubble:update(dt)
+
+end
+
 function SpeechBubble:draw()
 	local s = self.scale
 	love.graphics.draw(imgSrc, self.x, self.y, 0, s, s)
