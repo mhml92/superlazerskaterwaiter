@@ -39,6 +39,7 @@ function Diner:initialize()
    self.money = 0
    self.damage = 0
    self.test = 200
+
 end
 
 function Diner:gameOver()
