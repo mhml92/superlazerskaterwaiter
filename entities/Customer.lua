@@ -110,7 +110,7 @@ end
 
 function Customer:update(dt)
 	if self.bubble then
-		self.bubble.x = self.x-60
+		self.bubble.x = self.x-32
 		self.bubble.y = self.y-60
 	end
    if not self.fixture:isSensor() then
