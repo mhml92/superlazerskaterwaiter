@@ -10,11 +10,14 @@ function Director:initialize(x, y, scene)
 	self.step = 0
 	self.level = self.scene.level
 	self.chairs = self.level.chairs
+   self.spawnTime = 2
+   self.spawnTimeMin = 1.5
 end
 
 function Director:update(dt)
+
 	self.step = self.step + dt
-	if self.step > 2 then
+	if self.step > self.spawnTime then
 		-- add customer to scene
 		local tmp = self.scene:addEntity(Customer:new(0, 0, self.scene, math.random(0,12)))
 		
@@ -36,6 +39,10 @@ function Director:update(dt)
 	else
 		self:lol()
 	end
+      self.spawnTime = self.spawnTime - dt/120
+      if self.spawnTime < self.spawnTimeMin then
+         self.spawnTime = self.spawnTimeMin    
+      end
 end
 
 function Director:draw()

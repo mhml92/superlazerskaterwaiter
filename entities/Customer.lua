@@ -25,6 +25,9 @@ local WALKSPEED = 50
 function Customer:initialize(x, y, scene, person)
 	Entity.initialize(self, x, y, scene)
 
+   self.shouldApplyForce = false
+   self.fx = 0
+   self.fy = 0
 
    self.width = 20
    self.height = 20
@@ -109,6 +112,18 @@ function Customer:walk(tx, ty)
 end
 
 function Customer:update(dt)
+   if self.shouldApplyForce then
+      self.shouldApplyForce = false
+
+      if self.timerHandle then
+         Timer.cancel(self.timerHandle)
+      end
+      self.sitting = true
+      self.fixture:setSensor(false)
+      self.body:applyLinearImpulse(self.fx,self.fy)
+   
+   end
+
 	if self.bubble then
 		self.bubble.x = self.x-32
 		self.bubble.y = self.y-60
@@ -274,12 +289,9 @@ function Customer:arrived()
 end
 
 function Customer:applyForce(x,y)
-   if self.timerHandle then
-      Timer.cancel(self.timerHandle)
-   end
-   self.sitting = true
-   self.fixture:setSensor(false)
-   self.body:applyLinearImpulse(x,y)
+   self.shouldApplyForce = true
+   self.fx = x
+   self.fy = y
 end
 
 function Customer:screem()
